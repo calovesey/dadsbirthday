@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Play Today's Tune</title>
+	<style>
+		body {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			margin: 0;
+			padding: 0;
+		}
+
+		button {
+			border: none;
+			border-radius: 0%;
+			background-color: #1DB954;
+			color: white;
+			font-size: 24px;
+			font-weight: bold;
+			padding: 16px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			cursor: pointer;
+			box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+			border: 2px solid #1DB954; /* add a green border to the button */
+            margin-top: 20px;
+		}
+		
+		img {
+			width: 20%; /* make the image 50% of the width of its container */
+			margin-top: 20px; /* add some space between the button and the image */
+            border-radius: 20%; /* make the image have rounded edges */
+		}
+        @media only screen and (max-width: 768px) {
+            img { width: 50%}
+
+            
+        }
+        p {
+			font-size: 24px;
+			font-weight: bold;
+			margin-top: 20px; /* add some space between the image and the text */
+		}
+	</style>
+</head>
+<body>
+    
+	<img src="https://th.bing.com/th/id/OIG.4_E_U0p8vi0p.aAC0iTQ?pid=ImgGn" alt="Leopard rocking out to Spotify">
+	<button onclick="window.location.href=getLink()">Play today's tune</button>
+	
+	<p>Have a rocking day! 🤘</p>
+
+    <script>
+		function pad(num, size) {
+			num = num.toString();
+			while (num.length < size) num = "0" + num;
+			return num;
+		}
+
+      function getLink() {
+        const today = new Date();
+        const day = 7;//today.getDate();
+        const month = 6;//today.getMonth() + 1;
+        const year = today.getFullYear();
+		const date = pad(day,2)+'/'+pad(month,2)+'/'+year;
+		let link = '';
+		/*
+        if (month === 4 && day === 28 && year === 2023) {
+          link = 'https://open.spotify.com/track/2QTDuJIGKUjR7E2Q6KupIh?si=342c3192271a47fa';
+        } else if (month === 4 && day === 29 && year === 2023) {
+          link = 'https://open.spotify.com/track/1e3hPMCGrwPXYZ1DQhsiCE?si=90ac6f39acda4a3c';
+        } else if (month === 4 && day === 30 && year === 2023) {
+          link = 'https://open.spotify.com/track/4UTk5kksnYHrYsYy8d4CJM?si=28e4b1b980df4631';
+        } else {
+          link = 'https://open.spotify.com/track/4KCqwaAtPOBomQt6SkAUlU?si=d50b0a129017413b';
+        }
+		*/
+		let lines = csv.split('\n');
+		for (let i=1; i<lines.length; ++i)
+		{
+			let rows = lines[i].split(',');
+			console.log(rows[0]);
+			if (rows[0] == date)
+			{
+				console.log(rows[1]);
+				return rows[1];
+			}
+				
+		}
+        return link;
+      }
+
+	  var csv = `date, song
+02/05/2023,https://open.spotify.com/track/01lewSOj9ZaXplh9TpNKL4?si=b7e28e6510f84851
+03/05/2023,https://open.spotify.com/track/00qOE7OjRl0BpYiCiweZB2?si=20e7ef1a2ea84ce9
+04/05/2023,https://open.spotify.com/track/01Skn0RWxCYWyyAWVxUA5o?si=744c9d0fa3854dfe
+05/05/2023,https://open.spotify.com/track/074zxnASSEUnSxA4Jv0YIT?si=07df09b2d00f4ca5
+06/05/2023,https://open.spotify.com/track/0cJFobGkaiupCsOfE2eBZ1?si=ae6c28cde9b34d70
+07/05/2023,https://open.spotify.com/track/0cJPLFrlV7TTCyPLupHzcH?si=d1599dbecc5e493b
+08/05/2023,https://open.spotify.com/track/0CKefyZmTxVJLnGZGYwsDq?si=fc094d6d5a244da0
+09/05/2023,https://open.spotify.com/track/0CwYG1UnRmOx8Q1EzElCIL?si=4794e5024ce94930
+10/05/2023,https://open.spotify.com/track/0E29BKKGCJHcb7b9oIWgGB?si=4b17240b216d4213
+11/05/2023,https://open.spotify.com/track/0eifvmNPHWaSh4IKNR4Xva?si=959b0fb4e0a340be
+12/05/2023,https://open.spotify.com/track/0GjYsCv7VeDh4WEkS8SjxF?si=5d97ee5511c544f4
+13/05/2023,https://open.spotify.com/track/0I1DJdLt9BKOb7GWmWxCjo?si=6cd3f8ff14704f77
+14/05/2023,https://open.spotify.com/track/0juQNDN4EdiuG97rgKywkF?si=c67de592d7494483
+15/05/2023,https://open.spotify.com/track/0KeDuUqEX3P0cKzRD5pEom?si=d90dfe704fa34e42
+16/05/2023,https://open.spotify.com/track/0KXYrQAqpAREiCi4pB5fO9?si=b34835f41c43452b
+17/05/2023,https://open.spotify.com/track/0OBwxFLu6Yj61s2OagYbgY?si=38b784e90bae40f5
+18/05/2023,https://open.spotify.com/track/0oerlffJSzhRVvtDfLcp3N?si=359f6981c5404b56
+19/05/2023,https://open.spotify.com/track/0Ph6L4l8dYUuXFmb71Ajnd?si=17ac8dd2138f47af
+20/05/2023,https://open.spotify.com/track/0tKjVEJlX3IZ5L1rEJc5hh?si=a9d35adb331a4a33
+21/05/2023,https://open.spotify.com/track/0uJyE3M3ecGZgzltsQKs3a?si=098f30deefba4bb0
+22/05/2023,https://open.spotify.com/track/0VafPclbphrwh36WraHWws?si=14a04a4a99734735
+23/05/2023,https://open.spotify.com/track/0VpGIpRICJ8PTgcEe0J2QC?si=2c56762c53024097
+24/05/2023,https://open.spotify.com/track/0PdM2a6oIjqepoEfcJo0RO?si=73fd61041827477e
+25/05/2023,https://open.spotify.com/track/0W9Xvd4Qx1aZPxEi94vgRY?si=f239fc0543c147b8
+26/05/2023,https://open.spotify.com/track/0XHWClSz0v6RIaRSGqJH3X?si=0e185851f41a41e8
+27/05/2023,https://open.spotify.com/track/0xPkMivLMy77byCbcdjVAc?si=b843fb75529f4e5d
+28/05/2023,https://open.spotify.com/track/0YdWb05mQJwJnd3U7zXWFv?si=14ef02763c4449c1
+29/05/2023,https://open.spotify.com/track/0z5E34e7ZT3XKMYQNXh6tH?si=3af2e22c43274a49
+30/05/2023,https://open.spotify.com/track/1060gzllf4b0UETAXisR5l?si=9577dc4c69cd4025
+31/05/2023,https://open.spotify.com/track/17sEHeg1C36UE0884yfNq5?si=e8ad1206b80b4455
+01/06/2023,https://open.spotify.com/track/1Cj2vqUwlJVG27gJrun92y?si=6987199950084ad7
+02/06/2023,https://open.spotify.com/track/1f5s5i721OcbLH8XdSac14?si=6375e211557f4f00
+03/06/2023,https://open.spotify.com/track/1FL7eUG80aeUeyMO2N4btN?si=f02d26d4737e4a04
+04/06/2023,https://open.spotify.com/track/1gVgkQFOKa8Wc1HYsJtPdH?si=c1b65edea2e34e72
+05/06/2023,https://open.spotify.com/track/1HdoZ6Ql7nx5HfQrlVYtoM?si=7a396ad66de546a7
+06/06/2023,https://open.spotify.com/track/1INksmStBpxdNlBzwGUvsg?si=6c958e851e444ca1
+07/06/2023,https://open.spotify.com/track/1Je1IMUlBXcx1Fz0WE7oPT?si=7735f2e876e54dab
+08/06/2023,https://open.spotify.com/track/1jif4tafd4C9QyLS9ENchU?si=b36a238fed5c4caa
+09/06/2023,https://open.spotify.com/track/1Jwc3ODLQxtbnS8M9TflSP?si=9fff6219fd8c4baf
+10/06/2023,https://open.spotify.com/track/1kd8yIqrS7NEUFsV15P0q3?si=e945a72df97b4c40
+11/06/2023,https://open.spotify.com/track/1kgdslQYmeTR4thk9whoRw?si=bb65de167f024a29
+12/06/2023,https://open.spotify.com/track/1oYYd2gnWZYrt89EBXdFiO?si=cee6879716c14761
+13/06/2023,https://open.spotify.com/track/1PLMK1ui86iHHG3FM1N7ue?si=6107800f662e4a14
+14/06/2023,https://open.spotify.com/track/1pLz77YOqjrSmOpNIQcQyO?si=5b190d1c4f534fd1
+15/06/2023,https://open.spotify.com/track/1Q92pr5ZjhaOfNTvrjYLnE?si=87758ddb1e9449b9
+16/06/2023,https://open.spotify.com/track/1q9ru9Wx2Q9Ez8irkGcyFa?si=5d698ec4c7f14260
+17/06/2023,https://open.spotify.com/track/1rh232CwAy3EDEWFJkwH88?si=b2fd97bfe120402d
+18/06/2023,https://open.spotify.com/track/1tQ5TSr1tyeQUbHKBee0jv?si=222cc8173dbc4a93
+19/06/2023,https://open.spotify.com/track/1V2FWYA9sLJQqjQ8BRWj7Q?si=f223f7b7d3ad40ae
+20/06/2023,https://open.spotify.com/track/1ynmMEK1fkyiZ6Z6F3ThEt?si=7296b70235a8455e
+21/06/2023,https://open.spotify.com/track/1YnSk7PTAF0hKACNzsq5Id?si=f75132105ae44429
+22/06/2023,https://open.spotify.com/track/1ZozJfi8u9cO2Ob8KwiwNT?si=adfdc86f45724aa5
+23/06/2023,https://open.spotify.com/track/210JCw2LbYD4YIs8GiZ9iP?si=37e3da08a38f411c
+24/06/2023,https://open.spotify.com/track/22j45HZBBZKusYauCLuu0X?si=60c5eac09a804b60
+25/06/2023,https://open.spotify.com/track/23czLeQvLpg5t3yflZheRg?si=87226883b62a4cb0
+26/06/2023,https://open.spotify.com/track/23zzKOubAzAu8xlQdkVvZ2?si=23ace26ce1cb4049
+27/06/2023,https://open.spotify.com/track/7GFBTlzEIDC48v1aFmNtdn?si=b3dc45a67ec64fec
+28/06/2023,https://open.spotify.com/track/24YvUQnuPL8gObCfSnAobH?si=34ccbc4e332947a3
+29/06/2023,https://open.spotify.com/track/27mVJGgX0FD2iPviClDfby?si=da2446416d494ac3
+30/06/2023,https://open.spotify.com/track/2cJDsHTLgDQvf5G73RCNX5?si=c60622619c9c431a
+01/07/2023,https://open.spotify.com/track/3MRQ3CSjoiV1HFil8ykM9M?si=e076df9c201e483c
+02/07/2023,https://open.spotify.com/track/2dFkPYHCIOE2Ik5mafSwBl?si=28e2848db2d7443c
+03/07/2023,https://open.spotify.com/track/2erv9lZAymy9a6VNQNXSKA?si=26292d0abbfc4222
+04/07/2023,https://open.spotify.com/track/2hKdd3qO7cWr2Jo0Bcs0MA?si=d5f000c6c3344180
+05/07/2023,https://open.spotify.com/track/2KCJYwlBWxdlwyIYckIf6V?si=dca72ab208e64234
+06/07/2023,https://open.spotify.com/track/2KH16WveTQWT6KOG9Rg6e2?si=cda50b960769461b
+07/07/2023,https://open.spotify.com/track/0GTK6TesV108Jj5D3MHsYb?si=c60ac57f6bbb4aed
+08/07/2023,https://open.spotify.com/track/2knqdlYKjS0J27lYyyRllU?si=0881d6c04a9d495c
+09/07/2023,https://open.spotify.com/track/2KVwlelhxKUy8LVV6JypH3?si=e2ca846883b64302
+10/07/2023,https://open.spotify.com/track/2lRhq1ZfHNiaVNHkTWeXUv?si=40a6ee2b6cd644b1
+11/07/2023,https://open.spotify.com/track/2O7OjNCjqflzWOTVg9UlEm?si=e6d7d741f37841c1
+12/07/2023,https://open.spotify.com/track/2rcvRAYHb4jmgFZIrsDAv9?si=63e214a41bde421c
+13/07/2023,https://open.spotify.com/track/2RlgNHKcydI9sayD2Df2xp?si=fbd66906883c4a64
+14/07/2023,https://open.spotify.com/track/2RLJy9ctVKPnpRlyVgUapC?si=8d34bfb0a1e249fb
+15/07/2023,https://open.spotify.com/track/2RQ3fWFZJJe4G5KkHEACww?si=41f4a64f519148c1
+16/07/2023,https://open.spotify.com/track/2SUpC3UgKwLVOS2FtZif9N?si=5f43fd0e71174ceb
+17/07/2023,https://open.spotify.com/track/2Th42VycrWIKjhjIfur3xO?si=f5e100f67a3a452c
+18/07/2023,https://open.spotify.com/track/2th5iq191ZnrL3dngg4zeF?si=377b8175764f4744
+19/07/2023,https://open.spotify.com/track/2U0nXVgU5FcLTFtPbkcv1v?si=0f7a5cf7114540ed
+20/07/2023,https://open.spotify.com/track/2uLx3Gka9TGCz9Zgu7Uwav?si=dcfea31baccf4169
+21/07/2023,https://open.spotify.com/track/2v8B8d17Xxu9uLU5sNiHSL?si=8ea00e02b4ce4ba4
+22/07/2023,https://open.spotify.com/track/2x45xqISlmmDJqxOqr8BuS?si=d279726ee98f4849
+23/07/2023,https://open.spotify.com/track/2zYzyRzz6pRmhPzyfMEC8s?si=56e6b8a86916499b
+24/07/2023,https://open.spotify.com/track/305WCRhhS10XUcH6AEwZk6?si=a1522384045f43a4
+25/07/2023,https://open.spotify.com/track/32kgOw8wejH7zUhtXCM8DH?si=b7fbfab3ed0342fd
+26/07/2023,https://open.spotify.com/track/33AxY0QUitvte6JV6B6uLE?si=b60969b33a6847e3
+27/07/2023,https://open.spotify.com/track/33JmIIfnnqxwUSpXo5ttDG?si=272228bb84a24124
+28/07/2023,https://open.spotify.com/track/360T76vzavPvB0ZLRqvATQ?si=a426307c216b476f
+29/07/2023,https://open.spotify.com/track/37ZJ0p5Jm13JPevGcx4SkF?si=8c89d96e676f4eb0
+30/07/2023,https://open.spotify.com/track/3AJwUDP919kvQ9QcozQPxg?si=d9aa473a4f434767
+31/07/2023,https://open.spotify.com/track/3cfOd4CMv2snFaKAnMdnvK?si=b4cb5498fb3f429c
+01/08/2023,https://open.spotify.com/track/3dPQuX8Gs42Y7b454ybpMR?si=0403de2f2fe14752
+02/08/2023,https://open.spotify.com/track/3EYOJ48Et32uATr9ZmLnAo?si=bd64c108fd6d4260
+03/08/2023,https://open.spotify.com/track/3fHwTAHdxiKCMsQkzbJv36?si=c897881090ed4732
+04/08/2023,https://open.spotify.com/track/3gLlcZQMvpwgtV9THHXrGp?si=a364fe499a124c04
+05/08/2023,https://open.spotify.com/track/3Kof85lytKL3u6Pb6R7uZN?si=a0df9a29ccf149f0
+06/08/2023,https://open.spotify.com/track/3lPr8ghNDBLc2uZovNyLs9?si=de4a719ecd2d4327
+07/08/2023,https://open.spotify.com/track/3MjrueDQKVr6xDDseZwhEd?si=b546f23f8299417f
+08/08/2023,https://open.spotify.com/track/3MrRksHupTVEQ7YbA0FsZK?si=697d0fb7002a46b8
+09/08/2023,https://open.spotify.com/track/3nlGByvetDcS1uomAoiBmy?si=48b443f7f78b4105
+10/08/2023,https://open.spotify.com/track/3POcdaiPYoL4peuFyKWRJE?si=af46ba4d2ed442b9
+11/08/2023,https://open.spotify.com/track/3pxCXv0NACYfYnLjFcQW5D?si=aee94edcdc264e9d
+12/08/2023,https://open.spotify.com/track/5cx9PaJYuiIqFX8XtDnsJE?si=c80c094ce8cb48d6
+13/08/2023,https://open.spotify.com/track/3qiyyUfYe7CRYLucrPmulD?si=492b1276d47e4b25
+14/08/2023,https://open.spotify.com/track/3QZ7uX97s82HFYSmQUAN1D?si=964f51f589d647c5
+15/08/2023,https://open.spotify.com/track/3RJ4r1INVF9DtxTeH7GGHo?si=6f163544d92746b8
+16/08/2023,https://open.spotify.com/track/3skn2lauGk7Dx6bVIt5DVj?si=8b467f9bc20048b7
+17/08/2023,https://open.spotify.com/track/3twYDtVIlKydNVq0lAzX48?si=abb92bb4b0b84b56
+18/08/2023,https://open.spotify.com/track/3U8UHbqKeR0jlkg8Qlwunr?si=addeb6b5c9a949a5
+19/08/2023,https://open.spotify.com/track/3X7uFMzJrEE0sxn62qd8Ch?si=7498cfa87ac7421b
+20/08/2023,https://open.spotify.com/track/3YPwOuH453hHfwIBkqREFm?si=d9d024a7b3b64635
+21/08/2023,https://open.spotify.com/track/3z8h0TU7ReDPLIbEnYhWZb?si=bcb4466738284d97
+22/08/2023,https://open.spotify.com/track/3zAtaa9RluDXF1T1plWHOi?si=e92842c3c6904e88
+23/08/2023,https://open.spotify.com/track/3zBhihYUHBmGd2bcQIobrF?si=27a765ad1d3d473a
+24/08/2023,https://open.spotify.com/track/3zKjn4QnDvi8pCu8brRM7v?si=e44a57720d4c48f5
+25/08/2023,https://open.spotify.com/track/3ZOEytgrvLwQaqXreDs2Jx?si=d36d830187504356
+26/08/2023,https://open.spotify.com/track/3zYufmyv6HOuiHn1eMR6Ja?si=3b560032950e4d8b
+27/08/2023,https://open.spotify.com/track/40pPI2TbaYSZlKfV44HRjn?si=f74845ca66794b77
+28/08/2023,https://open.spotify.com/track/42NPKe5Eqa055lHAwI6QUL?si=334b6fe4f5f44083
+29/08/2023,https://open.spotify.com/track/43DeSV93pJPT4lCZaWZ6b1?si=a9cac3a0226e44b3
+30/08/2023,https://open.spotify.com/track/45GdHUH3hhAAwaBwSw61ZC?si=cbaffbfc5f794b72
+31/08/2023,https://open.spotify.com/track/48i055G1OT5KxGGftwFxWy?si=38a7f296f0714e75
+01/09/2023,https://open.spotify.com/track/48mJX9eRwMZdL1h8iRtjhJ?si=c23487dfe10b4caa
+02/09/2023,https://open.spotify.com/track/48O0GrGJWml3DzHhC5sJ7a?si=48050e88b77c4394
+03/09/2023,https://open.spotify.com/track/4a5pNRjwmzYQuEY1E7O6pj?si=19260a52d0d240d0
+04/09/2023,https://open.spotify.com/track/4aVuWgvD0X63hcOCnZtNFA?si=2ef991db0ade4742
+05/09/2023,https://open.spotify.com/track/4bO6DljpuAeQh6HS20i0I5?si=882a6e4a62ae4b78
+06/09/2023,https://open.spotify.com/track/4BP3uh0hFLFRb5cjsgLqDh?si=43157fd45a2e4e93
+07/09/2023,https://open.spotify.com/track/4ClGNWLK9vZMBtO0CpnyOE?si=db51baebeaed406a
+08/09/2023,https://open.spotify.com/track/4gvea7UlDkAvsJBPZAd4oB?si=f4aac24e5ed746ad
+09/09/2023,https://open.spotify.com/track/4kgGJcXALI1ppNA4NdkTw9?si=51e1b1e267df49dd
+10/09/2023,https://open.spotify.com/track/4Mv4X4ecNuQU7XScbnKJwa?si=0137b27e05c3447b
+11/09/2023,https://open.spotify.com/track/4pbJqGIASGPr0ZpGpnWkDn?si=636f5f856ac94ab2
+12/09/2023,https://open.spotify.com/track/4u2dUchYraxM1SFBHuE32o?si=67c947aade7a45c6
+13/09/2023,https://open.spotify.com/track/4UrgDocbHywDZv2f3mBhCq?si=32911fc969d84c48
+14/09/2023,https://open.spotify.com/track/4V05j7HDUU2bZQwDOeIySh?si=cfb12606c4614792
+15/09/2023,https://open.spotify.com/track/4WpmwEdc4RBos8W8icSSxW?si=3fef1cbabe194389
+16/09/2023,https://open.spotify.com/track/4Zc7TCHzuNwL0AFBlyLdyr?si=b6db59506f114cc9
+17/09/2023,https://open.spotify.com/track/51sifPT90O14UNrE8aRMtv?si=c37d375f6c6f4a30
+18/09/2023,https://open.spotify.com/track/52y59AQ0HkwcxSnYrfnv5Q?si=8447a900487e47f7
+19/09/2023,https://open.spotify.com/track/54TaGh2JKs1pO9daXNXI5q?si=4fad18bf56014f2f
+20/09/2023,https://open.spotify.com/track/57bgtoPSgt236HzfBOd8kj?si=85fcd3da3e3a4f8d
+21/09/2023,https://open.spotify.com/track/5AhyxWDDMvc3l7vttW68Al?si=31afda1645e34e49
+22/09/2023,https://open.spotify.com/track/5bHC9aYva39pR1mmFMFVxu?si=ba8bb2275bd34fc6
+23/09/2023,https://open.spotify.com/track/5CQ30WqJwcep0pYcV4AMNc?si=155e2bccd6a84025
+24/09/2023,https://open.spotify.com/track/5cY8y2XgOfkAh4kSWLFKkz?si=029a2275c5bb4d58
+25/09/2023,https://open.spotify.com/track/5D7DMAMmaxoTJIV27i5lDJ?si=bc2b2657d53e487d
+26/09/2023,https://open.spotify.com/track/5fgkjhICZnqFctrV0AyuQD?si=9ab08193ef8f426d
+27/09/2023,https://open.spotify.com/track/5GuZz08qie5efPtqsQFsdT?si=f102fd1e12a24c6f
+28/09/2023,https://open.spotify.com/track/5hkgrWxkobGtg30I7DsfVu?si=01b95c00ecd94b14
+29/09/2023,https://open.spotify.com/track/5HQEmiV2lKnSO6qa2fsR7x?si=6317c6300e454c89
+30/09/2023,https://open.spotify.com/track/5J0YWhrGE3bE8ToQPlu89E?si=9acfe82f9a5e4a45
+01/10/2023,https://open.spotify.com/track/5j4RaTG3kjLlreau6KjLrf?si=383160a74a5e41ef
+02/10/2023,https://open.spotify.com/track/5j9rumVPFUmlRKouHPIHPA?si=a7bf8c3adff940b5
+03/10/2023,https://open.spotify.com/track/5N4lj5fgO6wBSFh2Ebvdh7?si=3b5a8769054f4b60
+04/10/2023,https://open.spotify.com/track/5nqhvW8dMYVQw9EQTSZkiE?si=12e621030c1d4abf
+05/10/2023,https://open.spotify.com/track/5OQGeJ1ceykovrykZsGhqL?si=a1c1b5fbe45846ab
+06/10/2023,https://open.spotify.com/track/5PK1JCSdr34gWgzYHgt3Jq?si=e92a062da146421d
+07/10/2023,https://open.spotify.com/track/6ek9SiEj5a65WIs2EV7qiM?si=9fa50d122aa54e07
+08/10/2023,https://open.spotify.com/track/5QTxFnGygVM4jFQiBovmRo?si=d782e2cd54e646ea
+09/10/2023,https://open.spotify.com/track/5rMJJPGNeRzouxRbeo7src?si=a911974beb764dd2
+10/10/2023,https://open.spotify.com/track/5sN9dKen95dAV2c9CZIZrE?si=f9ff0e663c35404b
+11/10/2023,https://open.spotify.com/track/5TAf4lnZCZTLlZHNZMLFLi?si=7099c527f12b4d42
+12/10/2023,https://open.spotify.com/track/5uSZ3gSu03lvLMTN7GULYo?si=5e0640294e944830
+13/10/2023,https://open.spotify.com/track/5UzyqF1ozxGAFQBeFn8kT2?si=00682e9a88f54ff2
+14/10/2023,https://open.spotify.com/track/5vdp5UmvTsnMEMESIF2Ym7?si=10707ab3a04c4645
+15/10/2023,https://open.spotify.com/track/5vYA1mW9g2Coh1HUFUSmlb?si=4e9ca07359794882
+16/10/2023,https://open.spotify.com/track/5x9RZg7HfXGY3JayXL3seF?si=833fcdcacbd94ed3
+17/10/2023,https://open.spotify.com/track/5XcZRgJv3zMhTqCyESjQrF?si=68f7aa3786334e1d
+18/10/2023,https://open.spotify.com/track/5XQCY3GqDgYyKSwDdtfP7Z?si=8d755ebc6aa14909
+19/10/2023,https://open.spotify.com/track/63nvnuowwk9b7IEIWgLhj9?si=ac7381132cb04e56
+20/10/2023,https://open.spotify.com/track/63T7DJ1AFDD6Bn8VzG6JE8?si=c0f5274b43ba4322
+21/10/2023,https://open.spotify.com/track/63wsZUhUZLlh1OsyrZq7sz?si=f89c94c60fab4f1a
+22/10/2023,https://open.spotify.com/track/66N7JHuGc205BK90l9gSlb?si=1b6028602cc74b36
+23/10/2023,https://open.spotify.com/track/67oyFnjJnn78fZP9KjeZx0?si=75c36adbcbc6473f
+24/10/2023,https://open.spotify.com/track/67vYdAAM3oGsEImCRfbtsF?si=391d2cae2de64872
+25/10/2023,https://open.spotify.com/track/6aU6a9tdn2vHhnPGlboFZX?si=26f38f7ab1f148d9
+26/10/2023,https://open.spotify.com/track/6BmzbaB08O0FjHXeS0cR5b?si=8740accc4e094ad8
+27/10/2023,https://open.spotify.com/track/6bS7DqTuzrpkluB7boWmw2?si=73f1de2f17344a8e
+28/10/2023,https://open.spotify.com/track/6CgNoAbFJ4Q4Id4EjtbXlC?si=f8984d7eb1724c64
+29/10/2023,https://open.spotify.com/track/6dGnYIeXmHdcikdzNNDMm2?si=66a1a26b23fc4b78
+30/10/2023,https://open.spotify.com/track/6Fba9RZtC6vTY814JToDtP?si=de26075962af44da
+31/10/2023,https://open.spotify.com/track/6gQUbFwwdYXlKdmqRoWKJe?si=b8e61c1a5d854a35
+01/11/2023,https://open.spotify.com/track/6h6Ccbgvhibl2XQ0SQNR70?si=05b4880f4ecd465e
+02/11/2023,https://open.spotify.com/track/6hqIXyo6GxydAnoI8XeIrV?si=6ef268356e114db2
+03/11/2023,https://open.spotify.com/track/6jHBlKpIKNflU51QlsJx3v?si=856f62956fdb4ff0
+04/11/2023,https://open.spotify.com/track/6jiq9wbgdNdCd2V1eDHtrB?si=8d1d3251492c4066
+05/11/2023,https://open.spotify.com/track/6jWLyg8AuMQ9LtIB2UlfOF?si=5df7e1349ded4cc2
+06/11/2023,https://open.spotify.com/track/6KAvbFrrbQY0DBVQLa18U5?si=4b5e4a10fcf1489b
+07/11/2023,https://open.spotify.com/track/6kesIBNAY17BoAz28pnWMC?si=15ff46acba4544e0
+08/11/2023,https://open.spotify.com/track/6LbbHFEajG9e4m0G3L47c4?si=28edde7459854634
+09/11/2023,https://open.spotify.com/track/6mHOcVtsHLMuesJkswc0GZ?si=dfc1dfc030364437
+10/11/2023,https://open.spotify.com/track/6N009Ux12RwA86twRdpq6s?si=79a29fabc06a423f
+11/11/2023,https://open.spotify.com/track/6p8eFfPw3nQkf37aT3AkmK?si=ba3a53ca87f54fdf
+12/11/2023,https://open.spotify.com/track/6pDbR6ALIngNefnmsg7Osb?si=e68acbb9fea84f69
+13/11/2023,https://open.spotify.com/track/6pShNjnYzwWquQUj9AVTD1?si=fbafb76c6cf74818
+14/11/2023,https://open.spotify.com/track/6qWIU0QKCQjwSHx7adGXKs?si=2f6a213f23fa45f5
+15/11/2023,https://open.spotify.com/track/6rok0MW3ze4KBEng4ZBAna?si=c8b293787e3d4607
+16/11/2023,https://open.spotify.com/track/6SPOlvJok6QmNWkvUVPQMs?si=ee72945058dc4b0e
+17/11/2023,https://open.spotify.com/track/6TWbjjl3gafia6e7EiVvkj?si=b20c64c48f6c4cf7
+18/11/2023,https://open.spotify.com/track/6E2jKU7vGr5jPSTSavDpXD?si=ab2fb71e17bb41b7
+19/11/2023,https://open.spotify.com/track/6tXnRSvuNgOq4QcxpIN54r?si=47b116dfd73843f9
+20/11/2023,https://open.spotify.com/track/6VojZJpMyuKClbwyilWlQj?si=fc1f2d65dc114d9c
+21/11/2023,https://open.spotify.com/track/6WXdlIUbsqFSS6T63eCBxx?si=ea24b6a10f154e23
+22/11/2023,https://open.spotify.com/track/6xq5DxZWGgdStAxGAil0yw?si=11ae9ab8d45f4a3c
+23/11/2023,https://open.spotify.com/track/6YlOxoHWLjH6uVQvxUIUug?si=b2b4b3cc7e32450a
+24/11/2023,https://open.spotify.com/track/6ZHCQehGCpGWTi6wEzs8vf?si=807a9e3a5acd4966
+25/11/2023,https://open.spotify.com/track/70fe354BpVKEvMY0de78YO?si=08a4574020e344d0
+26/11/2023,https://open.spotify.com/track/71SvEDmsOwIWw1IozsZoMA?si=10d42710f5084e95
+27/11/2023,https://open.spotify.com/track/2PFIZFcGry0po3ZfRZkzKc?si=bbe3448100154e64
+28/11/2023,https://open.spotify.com/track/71W0cIs6gLEbPMslcwfUq3?si=86b678d296974a05
+29/11/2023,https://open.spotify.com/track/78tMjM8Fw6vpWW0esBpNzs?si=0dbc02b895c543a4
+30/11/2023,https://open.spotify.com/track/7cNeqmEHBqqpxElUfyA9Cp?si=94779148aa254bb7
+01/12/2023,https://open.spotify.com/track/5aDoUmxBsbdpS16alksb5Z?si=97aac173c6c04610
+02/12/2023,https://open.spotify.com/track/7Di7t9yGoxdZRLAt5a4pi0?si=6a7ade06ffa04b9d
+03/12/2023,https://open.spotify.com/track/7EHmKkyAr6MZv5Y2FdZbXw?si=feeb702329514124
+04/12/2023,https://open.spotify.com/track/7Fg4jpwpkdkGCvq1rrXnvx?si=6801244a78974940
+05/12/2023,https://open.spotify.com/track/7fKMi8jLXaau8Yne8x1pGd?si=de46bcd4b41b49d9
+06/12/2023,https://open.spotify.com/track/7FXj7Qg3YorUxdrzvrcY25?si=d69b04b2c2fa4d57
+07/12/2023,https://open.spotify.com/track/7G7tgVYORlDuVprcYHuFJh?si=dd1a787c24fb4445
+08/12/2023,https://open.spotify.com/track/7H1kDJrFePdUOJMWCv2oEW?si=b589f2d0b8164d9f
+09/12/2023,https://open.spotify.com/track/7iAqvWLgZzXvH38lA06QZg?si=c444eb7ee0b94a2d
+10/12/2023,https://open.spotify.com/track/6JRVgGubYFxk9zHPSlZtrL?si=029c3dce100e4ede
+11/12/2023,https://open.spotify.com/track/7ISL3LO8AWP3fKIXunvqTa?si=cf8ff761125847e8
+12/12/2023,https://open.spotify.com/track/7rPzEczIS574IgPaiPieS3?si=bfb64d7118fe41d2
+13/12/2023,https://open.spotify.com/track/7rS7L27iTzVp4mZ5zQQPBn?si=78964704283d4503
+14/12/2023,https://open.spotify.com/track/7sDHD9tCtnPqGNTRHy0kSR?si=724e9216329641d2
+15/12/2023,https://open.spotify.com/track/4EjOn21ToBHzjVnd6rqSyr?si=0b0c6e8900a244ec
+16/12/2023,https://open.spotify.com/track/7sZTvm0Sx8umbyQViTE2Qc?si=f94e77ed531e43e3
+17/12/2023,https://open.spotify.com/track/7vwPKgshybZxwnUZNDYnTG?si=63d6b57bc9c34a56
+18/12/2023,https://open.spotify.com/track/7wFcWd1605yGG6jM5uTigF?si=4f45cce161f44784
+19/12/2023,https://www.youtube.com/watch?v=I7o14ncR_YQ
+20/12/2023,https://open.spotify.com/track/7ERSQrRptZVM7q3VOdM7OL?si=8daa410f3de14588
+21/12/2023,https://youtu.be/LJFPPoGTPGI
+22/12/2023,https://open.spotify.com/track/4dBQWyoZmmgvFBlALGlqZi?si=53c9e8d7bc454855
+23/12/2023,https://open.spotify.com/track/3VTNVsTTu05dmTsVFrmGpK?si=f3ff45e853c34c28
+24/12/2023,https://open.spotify.com/track/46w8k81V0eSBx64XuVHxT2?si=8ac349c7c4d442a8
+25/12/2023,https://open.spotify.com/track/7ET8NPOttbXucT37K3lE2F?si=14b454027bf64ffd
+26/12/2023,https://open.spotify.com/track/4zd62qhE1m6eh7Njmor804?si=e7ebec52c38a48d0
+27/12/2023,https://open.spotify.com/track/4bHsxqR3GMrXTxEPLuK5ue?si=16a6e1a78b3f4405
+28/12/2023,https://open.spotify.com/track/3Dfy8YIxq89i84t108TvMi?si=9ce8a56638bf4f2a
+29/12/2023,https://open.spotify.com/track/7G1Y5i1Hc4uUm57dqz7pAd?si=51a0d62c47fc4645
+30/12/2023,
+31/12/2023,
+01/01/2024,
+02/01/2024,
+03/01/2024,
+04/01/2024,
+05/01/2024,
+06/01/2024,
+07/01/2024,
+08/01/2024,
+09/01/2024,
+10/01/2024,
+11/01/2024,
+12/01/2024,
+13/01/2024,
+14/01/2024,
+15/01/2024,
+16/01/2024,
+17/01/2024,
+18/01/2024,
+19/01/2024,
+20/01/2024,
+21/01/2024,
+22/01/2024,
+23/01/2024,
+24/01/2024,
+25/01/2024,
+26/01/2024,
+27/01/2024,
+28/01/2024,
+29/01/2024,
+30/01/2024,
+31/01/2024,
+01/02/2024,
+02/02/2024,https://open.spotify.com/track/3WkPRXJvKa7tRAvx5g0idb?si=d6a44caf5149402a
+03/02/2024,
+04/02/2024,
+05/02/2024,
+06/02/2024,
+07/02/2024,
+08/02/2024,
+09/02/2024,
+10/02/2024,
+11/02/2024,
+12/02/2024,
+13/02/2024,
+14/02/2024,
+15/02/2024,
+16/02/2024,
+17/02/2024,
+18/02/2024,
+19/02/2024,
+20/02/2024,
+21/02/2024,
+22/02/2024,
+23/02/2024,
+24/02/2024,
+25/02/2024,
+26/02/2024,
+27/02/2024,
+28/02/2024,
+29/02/2024,
+01/03/2024,
+02/03/2024,
+03/03/2024,
+04/03/2024,
+05/03/2024,
+06/03/2024,
+07/03/2024,
+08/03/2024,
+09/03/2024,
+10/03/2024,
+11/03/2024,
+12/03/2024,
+13/03/2024,
+14/03/2024,
+15/03/2024,
+16/03/2024,
+17/03/2024,
+18/03/2024,
+19/03/2024,
+20/03/2024,
+21/03/2024,
+22/03/2024,
+23/03/2024,
+24/03/2024,
+25/03/2024,
+26/03/2024,
+27/03/2024,
+28/03/2024,
+29/03/2024,
+30/03/2024,
+31/03/2024,
+01/04/2024,
+02/04/2024,
+03/04/2024,
+04/04/2024,
+05/04/2024,
+06/04/2024,
+07/04/2024,
+08/04/2024,
+09/04/2024,
+10/04/2024,
+11/04/2024,
+12/04/2024,
+13/04/2024,
+14/04/2024,
+15/04/2024,
+16/04/2024,
+17/04/2024,
+18/04/2024,
+19/04/2024,
+20/04/2024,
+21/04/2024,
+22/04/2024,
+23/04/2024,
+24/04/2024,https://open.spotify.com/track/5CPMeylw7UZ260fi9PjqU3?si=df48a822d39b426e
+25/04/2024,
+26/04/2024,
+27/04/2024,
+28/04/2024,
+29/04/2024,
+30/04/2024,
+01/05/2024,
+`
+    </script>
+ 
+   
+
+</body>
+</html>
+
+
