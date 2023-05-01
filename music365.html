@@ -64,8 +64,8 @@
 
       function getLink() {
         const today = new Date();
-        const day = 7;//today.getDate();
-        const month = 6;//today.getMonth() + 1;
+        const day = today.getDate();
+        const month = today.getMonth() + 1;
         const year = today.getFullYear();
 		const date = pad(day,2)+'/'+pad(month,2)+'/'+year;
 		let link = '';
