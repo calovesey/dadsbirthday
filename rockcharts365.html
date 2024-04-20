@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Play Today's Tune</title>
+	<style>
+		#generatedDiv {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			margin: 0;
+			padding: 0;
+		}
+
+		.one_choice {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			margin: 0;
+			padding: 0;
+		}
+
+		.two_choices {}
+
+
+		img {
+			width: 20%;
+			/* make the image 50% of the width of its container */
+			margin-top: 20px;
+			/* add some space between the button and the image */
+			border-radius: 20%;
+			/* make the image have rounded edges */
+		}
+
+		button {
+			border: none;
+			border-radius: 0%;
+			background-color: #1DB954;
+			color: white;
+			font-size: 24px;
+			font-weight: bold;
+			padding: 16px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			cursor: pointer;
+			box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+			border: 2px solid #1DB954;
+			/* add a green border to the button */
+			margin-top: 20px;
+		}
+
+
+
+		@media only screen and (max-width: 768px) {
+			img {
+				width: 50%
+			}
+
+
+		}
+
+		p {
+			font-size: 24px;
+			font-weight: bold;
+			margin-top: 20px;
+			/* add some space between the image and the text */
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- 
+		<img src="https://th.bing.com/th/id/OIG.4_E_U0p8vi0p.aAC0iTQ?pid=ImgGn" alt="Leopard rocking out to Spotify">
+		<button onclick="onButtonClick()">Play today's tune</button>
+	
+	<img src="https://lh3.googleusercontent.com/pw/AP1GczP-YdA5jTtqt9JSeM_QEoRLemYXDR9fnky8J2h3QLm-NyWpiBDXwamPW83aIMhUBTbpnenI6CQn32U_A_P_WkTC7fy0cQlv08oRR6EQUZA1qku9qw_zxEMv3tKk5e0bbr64X4hnqQdJ6fw140QHj5EDXU9kbclsO6o5QIgyfWT9LLtRxG0vnpgvFMCEPKbH888zEP0REsu74ezkAhXEdLPOhy-GmmSZN7OvDTZWqx69notZawqSGNAZdl6r_XcAtrKHPlTlA_aaqzHpEso5HZaqVxVjEQOpxpSWCtdCs3gYd5wch3eIA_xW9beoked--uLNdTii6xtVzLNyruc6vFIDzUHxIPIHGjC0-nCQ_cpTjQJn3JPepBmgoD7pEYE5hPCtVHa0kKTRsLLLz94BiwN3uoumylnEtDpZO0hFekZIndoWUDSwGDC2uQTpx82t8-kP-ijlhkHkWtNzDyFZAlOSG7CgBRSDllJgitQS_oEnRLOr8X9GrkXYyrpTe0jYixh-MWLwqj4TgF7nB81QdzNKcWHaxYqbGXB1tkMNGdlrlZa37Fj7liWeF7pjCxhKX358XU8jR5MjuOKpmbS-J_dM2RcYLORnvP7AHOx1ywCqb6OgaiyW12LA1TKqfnc5S6F4-yKu1eHkrXs94KHtXbQKzahrV3dpnL_fjyFRm-DWuGAII0I3GgnoPJxGGlYGiZE0ueRGhhfktVR0fLuAkcpTqs--PED4yNao-u2gfXuxIKL4RuQPrMRTxWAdXYUsg0dHaEVCJDY028-ceWKrkLOkNrXWjDEhQz8AJ7zrMUPpsJHFruVJts_4bxkopbyikknBVywgT6jSa4MU4XyhnN385eF_0QaASj0oDb7FAMSpRfClrCqztv_UhLj_lKPJ-P5osKdnV3xQWBpUo1o0PU2h=w710-h947-s-no-gm?authuser=0"
+		alt="Image">
+	
+	-->
+	<div id="generatedDiv">
+
+	</div>
+
+	<p>Have a rocking day! 🤘</p>
+
+	<script>
+
+		window.onload = windowonload;
+
+		//file:///C:/Users/calov/Documents/Etienne/taff/rockcharts365.html?06052024
+		function windowonload() {
+			let date = getDate();
+			console.log('date ' + date);
+			let linksLine = getLinks(date);
+			console.log(linksLine);
+
+			let innerHtml = '';
+			let link1 = linksLine[2];
+			let link2 = linksLine[5];
+			let hasLink2 = link2 != 'na'
+
+
+			let year1 = linksLine[3];
+			console.log('year1', year1)
+			let pictures1 = getPictures(year1);
+			console.log('pictures1', pictures1)
+			let picture1 = randomPicture(pictures1);
+
+			if (!hasLink2) {
+				innerHtml += `
+				<div class="one_choice">
+					<img src="${picture1}"><button href="${link1}">Play tune</button>
+				</div>`
+			}
+			else {
+
+				let year2 = linksLine[6];
+				console.log('year2', year2)
+				let pictures2 = getPictures(year2);
+				console.log('pictures2', pictures2)
+				let picture2 = randomPicture(pictures2);
+
+				// check if localstorage contains a choice
+				let previousChoice = localStorage.getItem(date);
+				if (previousChoice == null) {
+					innerHtml += `
+					<div class="two_choices">
+						<div class="choice">You have a choice !</div>
+						<img src="${picture1}"><button href="${link1}">Play tune 1</button>
+						<img src="${picture2}"><button href="${link2}">Play tune 2</button>
+					</div>`
+				}
+				else {
+					//innerHtml += '<div class="choice">You made your choice !</div>'
+					innerHtml += `<div class="one_choice">`;
+					if (previousChoice == link1)
+						innerHtml += `<img src="${picture1}"><button href="${link1}">Play your chosen tune</button>`
+					else
+						innerHtml += `<img src="${picture2}"><button href="${link2}">Play your chosen tune</button>`
+					innerHtml += `</div>`
+				}
+			}
+
+			let divElement = document.getElementById('generatedDiv');
+			console.log(divElement);
+			divElement.innerHTML = innerHtml;
+
+			divElement.querySelectorAll('button').forEach(x =>
+				x.addEventListener('click', (evt) => buttonClick(evt, date)));
+		}
+
+		function buttonClick(event, date) {
+			console.log(event.target);
+			let link = event.target.getAttribute('href');
+			alert(date + ' ' + link);
+			localStorage.setItem(date, link);
+			//window.location.href = link; 
+		}
+
+		function getDate() {
+			const today = new Date();
+			let day = today.getDate();
+			let month = today.getMonth() + 1;
+			let year = today.getFullYear();
+			if (window.location.search != '') {
+				day = window.location.search.substring(1, 3);
+				month = window.location.search.substring(3, 5);
+				year = window.location.search.substring(5, 9);
+			}
+			const date = pad(day, 2) + '/' + pad(month, 2) + '/' + year;
+			return date;
+		}
+
+		function pad(num, size) {
+			num = num.toString();
+			while (num.length < size) num = "0" + num;
+			return num;
+		}
+
+
+		function getLinks(date) {
+
+			let link = '';
+			let lines = csv.split('\n');
+			for (let i = 1; i < lines.length; ++i) {
+				let rows = lines[i].split('\t');
+				if (rows[0] == date) {
+					return rows;
+				}
+			}
+			return null;
+		}
+
+
+		function getPictures(year) {
+			let pictures = [];
+			lines = csvPictures.split('\n');
+			let foundPictures = [];
+			for (let i = 1; i < lines.length; ++i) {
+				let rows = lines[i].split('\t');
+				if (rows[0] == year) {
+					foundPictures.push(rows[1]);
+				}
+			}
+			return foundPictures;
+		}
+
+		function randomPicture(pictures) {
+			return pictures[(Math.floor(Math.random() * pictures.length))];
+		}
+
+		var csvPictures = `
+1996	1996.jpg
+2008	2008.jpg
+2021	2021.jpg
+1996	1996_2.jpg
+`
+
+		var csv = `Date	Lookup1	Songlink1	Year1	Lookup2	Songlink2	Year2
+02/05/2024	310	https://open.spotify.com/track/6gdXnOaopMtiEQfXgzhSxN	2008		na	na
+03/05/2024	370	https://open.spotify.com/track/4bK2vKMdkS0rNhbzRqAZe0	1992		na	na
+04/05/2024	193	https://open.spotify.com/track/2PIrlAdig9MxYLMYId11rg	2017		na	na
+05/05/2024	80	https://open.spotify.com/track/6vWu5uWlox5TVDPl3LvoG3	2023		na	na
+06/05/2024	24	https://open.spotify.com/track/6voIJ7OWwRabSZDC77D5Hp	2021	414	https://open.spotify.com/track/37EJtTS7jT5WUyXGZzrwnI	1996
+07/05/2024	120	https://open.spotify.com/track/6NdavLbxlTaCGvB0eOoXZw	2012		na	na
+08/05/2024	54	https://open.spotify.com/track/4xAmbn7xiy6wGOs4oaxv70	2022		na	na
+09/05/2024	7	https://open.spotify.com/track/2GFwwTIVLjnOrtP7m9luHC	2020	392	https://open.spotify.com/track/0Sfg0Pri6NypRrd6DYiWJc	1994
+10/05/2024	199	https://open.spotify.com/track/0w9kjN3wZAO8dNk11kv2XE	2017		na	na
+11/05/2024	423	https://open.spotify.com/track/4sS1PlcDSYMZ87daGN1PtY	1996		na	na
+12/05/2024	225	https://open.spotify.com/track/25YlltWXRb9k7KbrEBRuhJ?si=d697299f1d2a45e5	2019	76	https://open.spotify.com/track/5t2Wv4h5MO2ZyRBsLbFz55	2023
+13/05/2024	268	https://open.spotify.com/track/3YuaBvuZqcwN3CEAyyoaei	2003		na	na
+14/05/2024	146	https://open.spotify.com/track/5zsgyaahJyDW91qyvzSG3Y	2014		na	na
+15/05/2024	191	https://open.spotify.com/track/0IbiFpXPFpvCAIs9WMX5wC	2017		na	na
+16/05/2024	331	https://open.spotify.com/track/2r41JRUZ5Cjcx98ARVI0vo	1990		na	na
+17/05/2024	36	https://open.spotify.com/track/030D3duTUTfJORIycOhZNr	2021		na	na
+18/05/2024	362	https://open.spotify.com/track/1ydZRag9jS1VAXcUs8DAu9	1991		na	na
+19/05/2024	9	https://open.spotify.com/track/3OE4VBO845k24R8ZzuMpvj	2020		na	na
+20/05/2024	400	https://open.spotify.com/track/7MooGz4ZPE4bNxjFegR6Jx	1994		na	na
+21/05/2024	210	https://open.spotify.com/track/6qKSmXS6AOmSFAnmSxkASx	2018		na	na
+22/05/2024	117	https://open.spotify.com/track/7nsO4eXkY7DvrWbjYUDLJS	2012		na	na
+23/05/2024	40	https://open.spotify.com/track/62ke5zFUJN6RvtXZgVH0F8	2021		na	na
+24/05/2024	61	https://open.spotify.com/track/3tOsMX89CIiuf2x2n5EQyb	2022	38	https://open.spotify.com/track/4f74h9bcuHOroCaVsKIr4F	2021
+25/05/2024	140	https://open.spotify.com/track/7x2gOLBT1ruFBNsxFmddWw	2013	449	https://open.spotify.com/track/4GbVDG1NFH1kzqCHRCFj5D	1999
+26/05/2024	149	https://open.spotify.com/track/0aYQsp1vZZcX0JBEJvKF7N	2014	226	https://open.spotify.com/track/0leJYiYyZE6jjXCEVYUQAm	2019
+27/05/2024	411	https://open.spotify.com/track/6u1yKoh00WaoSpNp46RzKF	1996		na	na
+28/05/2024	344	https://open.spotify.com/track/3dISHe66tFlOKqmom5Qr2n	1990	366	https://open.spotify.com/track/0LoH6lFQLNscy3RyljAewK	1992
+29/05/2024	82	https://open.spotify.com/track/2ZPnedMaS4W1de05Xz18hF	2023		na	na
+30/05/2024	403	https://open.spotify.com/track/48iWbsOaBUAGzMdoSmqyg1	1995		na	na
+31/05/2024	157	https://open.spotify.com/track/4uDdtW0z7ozg9umqZWSQSe	2015		na	na
+01/06/2024	285	https://open.spotify.com/track/0INUE1K7cEiE8VH63Rv5RJ	2005		na	na
+02/06/2024	204	https://open.spotify.com/track/0ZeefLILl0MXQIE1Lm6mCh	2018	439	https://open.spotify.com/track/2fC1qDCOVfgX9xLHgpLv5Q	1998
+03/06/2024	238	https://open.spotify.com/track/3NKqvNqe04e1HeZUHjqTk8	2019	203	https://open.spotify.com/track/1BfR5GMOgW0peHkPxrwf11	2018
+04/06/2024	412	https://open.spotify.com/track/1HSVpIU0XU1WuwiBLBWAZd	1996		na	na
+05/06/2024	205	https://open.spotify.com/track/5adBpeh1CjHAzlM2i8nYFR	2018		na	na
+06/06/2024	401	https://open.spotify.com/track/2B98ljvzqpCVgt5reTHq28	1995	175	https://open.spotify.com/track/1LY3GhF0zxIVgbYEQjCbUO	2016
+07/06/2024	260	https://open.spotify.com/track/1f2V8U1BiWaC9aJWmpOARe	2002		na	na
+08/06/2024	49	https://open.spotify.com/track/1QTQ3VNzabl4yF5GJE6hhK	2022		na	na
+09/06/2024	306	https://open.spotify.com/track/4eAwB5pnKFTmsgc3zWoYO0	2007		na	na
+10/06/2024	427	https://open.spotify.com/track/0z1b34WikhOH9ZxU8QDWcv	1997		na	na
+11/06/2024	390	https://open.spotify.com/track/3dmqIB2Qxe2XZobw9gXxJ6	1993		na	na
+12/06/2024	5	https://open.spotify.com/track/6VgEoB7PXO5VrrQTTkMeRE	2020		na	na
+13/06/2024	369	https://open.spotify.com/track/134cGRMQbwEn7XQcSBFvkm	1992		na	na
+14/06/2024	74	https://open.spotify.com/track/07on0OB2cdPt79IFsgdRUy	2023	416	https://open.spotify.com/track/7mHk9xv1aYsd0T3m9nolyk	1996
+15/06/2024	148	https://open.spotify.com/track/6OMO6WdRhSfjMPAiPT94wH	2014	71	https://open.spotify.com/track/15kMBHLBO0WeQJmnuSWJYN	2023
+16/06/2024	138	https://open.spotify.com/track/2vMZ3HdWC8vYVwngFfvIi7	2013		na	na
+17/06/2024	393	https://open.spotify.com/track/4viUMIPk61pIvWUNDl0u4M	1994		na	na
+18/06/2024	91	https://open.spotify.com/track/4urxRqBRiaH0i20OKBsgxc	2010		na	na
+19/06/2024	415	https://open.spotify.com/track/02lTDOxHeXTHsdwXoz6lpC	1996		na	na
+20/06/2024	30	https://open.spotify.com/track/5KfXH2tHeTqIX9WvJwXTz1	2021		na	na
+21/06/2024	196	https://open.spotify.com/track/1060gzllf4b0UETAXisR5l	2017	332	https://open.spotify.com/track/6z9ehfxE973fOlKJKNJL2x	1990
+22/06/2024	97	https://open.spotify.com/track/3EZAnO8lnPCBCcJcwAZbEB	2010	179	https://open.spotify.com/track/3uJpLFPywddM2hhqgcgzfN	2016
+23/06/2024	34	https://open.spotify.com/track/6RksBSj5fFtPkUnL2EE0oe	2021		na	na
+24/06/2024	437	https://open.spotify.com/track/2m01P9Yg3DvnqrV57qQghi	1998		na	na
+25/06/2024	252	https://open.spotify.com/track/1BExV8JprNJLvLeDE9qdEW	2001		na	na
+26/06/2024	281	https://open.spotify.com/track/4A9O9e4iTm4bYnOPSzWaGb	2004		na	na
+27/06/2024	433	https://open.spotify.com/track/0dcEYxnV7CmSfEiyHdAaS0	1997		na	na
+28/06/2024	197	https://open.spotify.com/track/7aOor99o8NNLZYElOXlBG1	2017		na	na
+29/06/2024	152	https://open.spotify.com/track/2n1jBz26dVBtSbMvJNjGsu	2014		na	na
+30/06/2024	425	https://open.spotify.com/track/5TLA7O0ogTqwZHbS3ERabw	1996		na	na
+01/07/2024	420	https://open.spotify.com/track/2gdtLnVGGg80Kj9GiqP0vH	1996		na	na
+02/07/2024	229	https://open.spotify.com/track/2VAQAqrKu8n1eUWPlTzVox	2019	32	https://open.spotify.com/track/0O2UONKvVfdwDyefKh5Yo1	2021
+03/07/2024	84	https://open.spotify.com/track/1VLM75hY5fluRorkbIt6NT	2023		na	na
+04/07/2024	283	https://open.spotify.com/track/5GorCbAP4aL0EJ16frG2hd	2005	69	https://open.spotify.com/track/1H4Y9uW4N0LsxJUz0VnaPJ	2023
+05/07/2024	286	https://open.spotify.com/track/5vfjUAhefN7IjHbTvVCT4Z	2005	418	https://open.spotify.com/track/6srExnnKuvR3MvUqDHt1Ty	1996
+06/07/2024	130	https://open.spotify.com/track/0lutulB2BoZNyb0l7uyGI3	2013		na	na
+07/07/2024	237	https://open.spotify.com/track/28KccB3Iw5Gg8MjKewEQFW	2019		na	na
+08/07/2024	114	https://open.spotify.com/track/579801BT5wkzD5IVwRLI8t	2012		na	na
+09/07/2024	247	https://open.spotify.com/track/6xXlurslWqFuyqTCBlErzX	2001	192	https://open.spotify.com/track/0bKbN288jXK5tKxnEGK8xL	2017
+10/07/2024	292	https://open.spotify.com/track/2TeEhtmhMQmUyQJhnJNvAs	2006		na	na
+11/07/2024	368	https://open.spotify.com/track/217a9W3cZ3ur40RFQW2pTo	1992		na	na
+12/07/2024	398	https://open.spotify.com/track/4fjsOdrWMaKf70x21h5XbX	1994	240	https://open.spotify.com/track/2UIuYNBg8r5pkoG2MjdLZT	2000
+13/07/2024	121	https://open.spotify.com/track/0XGV1bem5W9ICY2rgleryV	2012		na	na
+14/07/2024	134	https://open.spotify.com/track/4pbSB8VXWEOwzSafX8Eypt	2013	432	https://open.spotify.com/track/4KoNBTm9a55KgLMtEaf3n6	1997
+15/07/2024	444	https://open.spotify.com/track/1OxcIUqVmVYxT6427tbhDW	1998		na	na
+16/07/2024	337	https://open.spotify.com/track/5TSANSqPTD6nBG0NSJWmVB	1990	258	https://open.spotify.com/track/2oZsf8xTx00mq1CzId4XAq	2002
+17/07/2024	108	https://open.spotify.com/track/2mYMAJGoauv6LYCpzIOGBi	2011		na	na
+18/07/2024	312	https://open.spotify.com/track/13Uvqll8OQDjw3wDweIK9y	2008	377	https://open.spotify.com/track/0dr71rw5oIcPtUHRJES6gP	1993
+19/07/2024	174	https://open.spotify.com/track/1fnULsZuORnAgCFFbM8nTZ	2016		na	na
+20/07/2024	265	https://open.spotify.com/track/3WbphvawbMZ8FyqDxYGdSQ	2002		na	na
+21/07/2024	336	https://open.spotify.com/track/5do2NQzjriskVEaFM2z4ge	1990		na	na
+22/07/2024	408	https://open.spotify.com/track/1gij27s31tFKcTHa8f1u4g?si=2e5c17f6ed0c448a	1995	150	https://open.spotify.com/track/0sr0z1ymk3w6eyoGKgeMkW	2014
+23/07/2024	429	https://open.spotify.com/track/17UNl3uil4LWVBmjVm5p21	1997	72	https://open.spotify.com/track/3nDstVXtr6xbCZKs5Ka2rZ	2023
+24/07/2024	21	https://open.spotify.com/track/21Qmkbvp6GvZdO0IMQtae5	2020	314	https://open.spotify.com/track/1WxF4gMsFXnKCyh48CW2RI	2008
+25/07/2024	358	https://open.spotify.com/track/3m8w70z3xjmSjpc30Bn2T2	1991		na	na
+26/07/2024	112	https://open.spotify.com/track/6sREV6MpLHTqcOmBK5mvYF	2011		na	na
+27/07/2024	340	https://open.spotify.com/track/2fcRBvP5G8mlJiTPXnfmE2	1990		na	na
+28/07/2024	81	https://open.spotify.com/track/2oeD1y0HnIBhHW5pPtyE0w	2023		na	na
+29/07/2024	125	https://open.spotify.com/track/1AaWRxEn9ZygdhiLmg3nVV	2013		na	na
+30/07/2024	303	https://open.spotify.com/track/28IEbk5a7twNTbUEvWslUb	2007		na	na
+31/07/2024	445	https://open.spotify.com/track/1aXFBWnnPFRKUN7vuIA5h0	1998		na	na
+01/08/2024	96	https://open.spotify.com/track/2M865AmlL0eQkQRdaF8lJU	2010		na	na
+02/08/2024	267	https://open.spotify.com/track/3fjmSxt0PskST13CSdBUFx	2003	353	https://open.spotify.com/track/31AOj9sFz2gM0O3hMARRBx	1991
+03/08/2024	170	https://open.spotify.com/track/2D9BrlpeyjXF0vli2dYQ5V	2015		na	na
+04/08/2024	127	https://open.spotify.com/track/0AGJuICX9Uhne0ER96c4Rw	2013		na	na
+05/08/2024	282	https://open.spotify.com/track/04NGX0b5Tgs7VsErfn5OA1	2004	359	https://open.spotify.com/track/1hM2HXmeYuEe1VTf0O1IFU	1991
+06/08/2024	211	https://open.spotify.com/track/0nqIqABZcujg05mkixJV60	2018		na	na
+07/08/2024	384	https://open.spotify.com/track/7zjzu90Q4mtNNaE9Ol9Zbv?si=81d91030f82e48c3	1993		na	na
+08/08/2024	352	https://open.spotify.com/track/6OSyCAmXT4Gkd3OQ2aPOaF	1991		na	na
+09/08/2024	382	https://open.spotify.com/track/45Ia1U4KtIjAPPU7Wv1Sea	1993		na	na
+10/08/2024	110	https://open.spotify.com/track/6PsH6q8WgzoL9m6R7WNgtO	2011		na	na
+11/08/2024	153	https://open.spotify.com/track/1JHlhhxjYBpdW9pGdvbLhf	2014		na	na
+12/08/2024	284	https://open.spotify.com/track/3zwmW1gM4E8FlHXV5nE16u	2005		na	na
+13/08/2024	56	https://open.spotify.com/track/0ypdKBbXnpQty55mzgeTJV	2022		na	na
+14/08/2024	373	https://open.spotify.com/track/3W3hQB4I4M8pDfrAfhAG8G	1992	397	https://open.spotify.com/track/2EoOZnxNgtmZaD8uUmz2nD	1994
+15/08/2024	28	https://open.spotify.com/track/4tA8lpQoWkMRWOZ29HbR86	2021		na	na
+16/08/2024	87	https://open.spotify.com/track/2EU5LeESSJgbYKCc5l4rms	2024		na	na
+17/08/2024	351	https://open.spotify.com/track/7tlbHVveasgXlT0HmHXm5Y	1991		na	na
+18/08/2024	347	https://open.spotify.com/track/3Mjn7q1ubHIhTGwciFMrB9	1990	73	https://open.spotify.com/track/3uSATa7xWXVJrMhJJSnGGk	2023
+19/08/2024	372	https://open.spotify.com/track/0cpI4jYr4D2W7knJg4nvKn	1992		na	na
+20/08/2024	241	https://open.spotify.com/track/1KBuhAHzia2qoD4u6YhvER?si=09aa7c4f9f264667	2000	19	https://open.spotify.com/track/2Gx3kLdFT0elzqKG7SFyCw	2020
+21/08/2024	289	https://open.spotify.com/track/36IkR2i4HaV3SRsSHzje6v	2005		na	na
+22/08/2024	383	https://open.spotify.com/track/3jJZVeExYzVYiV6Y9Fl3DX	1993		na	na
+23/08/2024	293	https://open.spotify.com/track/6RfDLynqmspMOKA57mXyQI	2006		na	na
+24/08/2024	274	https://open.spotify.com/track/0UGsSjbp8vhm8QfNOIdmMy	2003		na	na
+25/08/2024	104	https://open.spotify.com/track/7v0mtl6oInUtHOmTk2b0gC	2011		na	na
+26/08/2024	448	https://open.spotify.com/track/1OBMSzh2ocRqK2gUFaMBSM	1999		na	na
+27/08/2024	122	https://open.spotify.com/track/3W0fjPSYTOS4WnGt3Z1c9M	2012		na	na
+28/08/2024	23	https://open.spotify.com/track/2gsxeJnGbJQkBddBDr0UTV	2021		na	na
+29/08/2024	202	https://open.spotify.com/track/5NFXaR31k0gmII07w6OJIt	2018	13	https://open.spotify.com/track/6GqqGv8frU7kqzXkm2rewI	2020
+30/08/2024	31	https://open.spotify.com/track/60zDzUtVX5z1DPefxMZ2J7	2021		na	na
+31/08/2024	343	https://open.spotify.com/track/1sUTfgduT0WIQO8kXKXxLC	1990		na	na
+01/09/2024	165	https://open.spotify.com/track/6WXN5Pvim9BKB6Wb765II5	2015	2	https://open.spotify.com/track/5RBWMYMSe6ihNb0hC8ro8v	2020
+02/09/2024	20	https://open.spotify.com/track/0sfdiwck2xr4PteGOdyOfz?si=5907aa3bd5bc4a4e	2020	262	https://open.spotify.com/track/6eomzikNIdNq8X5quIMhu4	2002
+03/09/2024	68	https://open.spotify.com/track/1linrfCmITmQHs4enAxTUY	2023		na	na
+04/09/2024	338	https://open.spotify.com/track/6mrN5zMwHh391zfSKgSChr	1990		na	na
+05/09/2024	154	https://open.spotify.com/track/1DMHL5xsJOlr8RWHmfhlHU	2014		na	na
+06/09/2024	22	https://open.spotify.com/track/32NJ4kh1Aqrc9XGRoXvGie	2021		na	na
+07/09/2024	395	https://open.spotify.com/track/0vI64OhYqTo6KYswDlx0yT	1994		na	na
+08/09/2024	276	https://open.spotify.com/track/1Yuim9eHBfG8YUJII28XDF	2004		na	na
+09/09/2024	430	https://open.spotify.com/track/5BnFZLH99sYav2cxJFGO2n	1997		na	na
+10/09/2024	78	https://open.spotify.com/track/5mQCd8RqgT91gK4S9eDG1t	2023		na	na
+11/09/2024	27	https://open.spotify.com/track/1H8U9f2oVZpb4tmR7yO3ZQ	2021		na	na
+12/09/2024	450	https://open.spotify.com/track/1G391cbiT3v3Cywg8T7DM1	1999		na	na
+13/09/2024	178	https://open.spotify.com/track/2oaK4JLVnmRGIO9ytBE1bt	2016		na	na
+14/09/2024	385	https://open.spotify.com/track/4t1fWWJQs5V9YErfsrDslC	1993		na	na
+15/09/2024	42	https://open.spotify.com/track/2SD2zj8W5zKMdjCCJFF0vQ	2021		na	na
+16/09/2024	200	https://open.spotify.com/track/3kdMzXOcrDIdSWLdONHNK5	2017		na	na
+17/09/2024	47	https://open.spotify.com/track/2sOzXOVI7Ia5ima0kLSl7v	2022	92	https://open.spotify.com/track/1VzuMNFf0PqK745NFX20CJ	2010
+18/09/2024	346	https://open.spotify.com/track/05NYcsjJwOYq4jIiKPVj9p	1990		na	na
+19/09/2024	85	https://open.spotify.com/track/0dISnUuvIHXZAIG7QtJ1Qf	2023		na	na
+20/09/2024	438	https://open.spotify.com/track/7GRq9NUgqhxPGUUksX02fk	1998		na	na
+21/09/2024	155	https://open.spotify.com/track/6REiraH7Pe3akd0mkFA4l9	2014	236	https://open.spotify.com/track/17C1AVZVh5jhJU4eAcovpl	2019
+22/09/2024	1	https://open.spotify.com/track/0C4bx13JIMSWOAxd8TaoVq	2020		na	na
+23/09/2024	207	https://open.spotify.com/track/4Pp7tPCBM9ywQexWvCz6iH	2018		na	na
+24/09/2024	396	https://open.spotify.com/track/77YKoNCjP5hWqiXMRG2839	1994		na	na
+25/09/2024	15	https://open.spotify.com/track/7m1Lw3uTakxHFxGjXXbE4l	2020		na	na
+26/09/2024	232	https://open.spotify.com/track/0IdNBZt0O8R9qBgezYFGOi	2019		na	na
+27/09/2024	198	https://open.spotify.com/track/2UZtI2HUyLRzqBjodvcUmY	2017	249	https://open.spotify.com/track/5U7avpv9JxPZEw0GcMmdmU	2001
+28/09/2024	271	https://open.spotify.com/track/6FOpPA0a80RuBqqgDozvja	2003		na	na
+29/09/2024	394	https://open.spotify.com/track/4PtZE0h5oyPhCtPjg3NeYQ	1994	29	https://open.spotify.com/track/2YqFqTAIYuEZKJY0qVcFxX	2021
+30/09/2024	109	https://open.spotify.com/track/76Je5Wklky23mVoxiRszcN	2011		na	na
+01/10/2024	341	https://open.spotify.com/track/7cIVAikDoNoEOjXKMWMFzZ	1990		na	na
+02/10/2024	399	https://open.spotify.com/track/6qLEOZvf5gI7kWE63JE7p3	1994		na	na
+03/10/2024	334	https://open.spotify.com/track/1VMqkvlOqaH0HP0nsj1bx5	1990		na	na
+04/10/2024	388	https://open.spotify.com/track/6txWz9UapYHVxEd7dDIHXT	1993		na	na
+05/10/2024	177	https://open.spotify.com/track/3TjQAc2PzWzlSDrnq61J1y	2016		na	na
+06/10/2024	431	https://open.spotify.com/track/65Rd5COEe0XYB3rL0nqkX3	1997		na	na
+07/10/2024	447	https://open.spotify.com/track/0VbOBom0Ya2zrlSpv7II1C	1999		na	na
+08/10/2024	329	https://open.spotify.com/track/1KU5EHSz04JhGg3rReGJ0N	1990		na	na
+09/10/2024	180	https://open.spotify.com/track/278Ao6KQDxWGGszv24uvhI	2016	404	https://open.spotify.com/track/7GNLvWRG9itrCk0zarYKmQ	1995
+10/10/2024	102	https://open.spotify.com/track/5G2c0FDSToVnmhrk9EJuv2	2011	272	https://open.spotify.com/track/7gDVjl5fEw2OPAtjbW4LzR	2003
+11/10/2024	255	https://open.spotify.com/track/0FLBNqc5oAiTt4J2e3fe3y	2002	14	https://open.spotify.com/track/18DJQsejI5e1ZwO2wyuP2g	2020
+12/10/2024	319	https://open.spotify.com/track/5qtwzv99vOr5UTwnTixn7j	2009		na	na
+13/10/2024	316	https://open.spotify.com/track/6wO0vMRAJB0r1lEWBJZNOq	2009		na	na
+14/10/2024	147	https://open.spotify.com/track/3gLvDdJVhHLWWkgzTbYeJB	2014		na	na
+15/10/2024	297	https://open.spotify.com/track/4ClGNWLK9vZMBtO0CpnyOE	2006	402	https://open.spotify.com/track/3SyvxWSUcxx3IfjHmlFOqb	1995
+16/10/2024	417	https://open.spotify.com/track/5c3K5Lwh6vcHi98qNYSNx8	1996		na	na
+17/10/2024	46	https://open.spotify.com/track/2SMNxADB0ffqaIoOwl2x06	2021		na	na
+18/10/2024	360	https://open.spotify.com/track/68cNgDnLSjxWeXtXo5QdvL	1991	253	https://open.spotify.com/track/0gmbgwZ8iqyMPmXefof8Yf	2001
+19/10/2024	119	https://open.spotify.com/track/22VW5d6k6HT0SQ8MUEXuDz	2012		na	na
+20/10/2024	315	https://open.spotify.com/track/3G0PaoAphGzJZbJ6VRQJhs	2008	94	https://open.spotify.com/track/55KYlnsC6nYnr3IykbmJwE	2010
+21/10/2024	376	https://open.spotify.com/track/4OlLGsCuu6GK7B0iq2WWlY	1992		na	na
+22/10/2024	173	https://open.spotify.com/track/5nRBTzF9dLIlNqnl0xWo9g	2016		na	na
+23/10/2024	339	https://open.spotify.com/track/46NF8v6zVkVS6ZJtsR4BAZ	1990	162	https://open.spotify.com/track/5GYFgz8QsRssKk2ONcvnpo	2015
+24/10/2024	214	https://open.spotify.com/track/4zvqMZ6g4wKZaPpOQvoBpP	2018	124	https://open.spotify.com/track/1zZrUh5ScQM5n9Cp3uKPNe	2013
+25/10/2024	243	https://open.spotify.com/track/46tSt69Xw10Ej8Rn7wJmFt	2000		na	na
+26/10/2024	308	https://open.spotify.com/track/3DelzIn0lPwX4PeOJk9zDF	2008		na	na
+27/10/2024	273	https://open.spotify.com/track/114bGIxUrj6vnZwWEfEdMP	2003		na	na
+28/10/2024	111	https://open.spotify.com/track/290yPLUQhUqZd1OlmPWGRI	2011		na	na
+29/10/2024	257	https://open.spotify.com/track/44NRdYQw7P0GWuiunRv3hr	2002		na	na
+30/10/2024	389	https://open.spotify.com/track/46xRV0s4voxrYJ59emLzB6	1993		na	na
+31/10/2024	228	https://open.spotify.com/track/1qAuIPMALdFtGv2Ymjy5l0	2019		na	na
+01/11/2024	428	https://open.spotify.com/track/798M8UpxnEqKotUBuiDqhR	1997		na	na
+02/11/2024	381	https://open.spotify.com/track/6OZAcgTPxmjUTuiatU0Viq	1993	270	https://open.spotify.com/track/1AEYT6VxrxXPMoQUxsY0E4	2003
+03/11/2024	419	https://open.spotify.com/track/2Iv4HSoMX2fDeXFcOJWyWX	1996		na	na
+04/11/2024	128	https://open.spotify.com/track/5M7y0vJBmG5TDmOIBN9run	2013	101	https://open.spotify.com/track/1AgQqthiTBuJBzkv0o5cFT	2011
+05/11/2024	213	https://open.spotify.com/track/3IiMnjK7S2PlsPVMuAH7rU	2018		na	na
+06/11/2024	256	https://open.spotify.com/track/73IUI6caUciWyRDh5789Rn	2002		na	na
+07/11/2024	100	https://open.spotify.com/track/0LPx8WfsRrXCF92YtINFtN	2010	318	https://open.spotify.com/track/04hf4vWXR2ObRoxz9FR4a4	2009
+08/11/2024	16	https://open.spotify.com/track/2fKsKOdYcIYSzhBfR9uIN1	2020		na	na
+09/11/2024	277	https://open.spotify.com/track/0FT2q3tgLUqGvSUCSbXck2	2004		na	na
+10/11/2024	345	https://open.spotify.com/track/3Y55JjpiaxICu4M40ekrNV	1990		na	na
+11/11/2024	375	https://open.spotify.com/track/5EWtBjCLy21d1hY9zdaEe8	1992		na	na
+12/11/2024	348	https://open.spotify.com/track/6LPQVBRDTZK539mKAbyMHC	1990		na	na
+13/11/2024	386	https://open.spotify.com/track/2jkkbZtzdukt4IoNyztZEf	1993		na	na
+14/11/2024	161	https://open.spotify.com/track/1RWk8tQCp57arHoeLJT9vJ	2015		na	na
+15/11/2024	33	https://open.spotify.com/track/4OSWIup9gKCkIdVvdkLEOE	2021		na	na
+16/11/2024	77	https://open.spotify.com/track/4OjAxkNVwleUdCUS098eBw	2023		na	na
+17/11/2024	391	https://open.spotify.com/track/53eJFr4Mfbw5PXJ01K6cFw	1993		na	na
+18/11/2024	361	https://open.spotify.com/track/30IBbNzTzqPyYU2VxFtHRs	1991		na	na
+19/11/2024	48	https://open.spotify.com/track/0DIStdtP0gEKAwKtLGK56u	2022	168	https://open.spotify.com/track/6hvSILCCQT5a0MRcOE36zd	2015
+20/11/2024	367	https://open.spotify.com/track/3G69vJMWsX6ZohTykad2AU	1992		na	na
+21/11/2024	307	https://open.spotify.com/track/3e2KBwxibC1rq4bA5TNKW2	2008		na	na
+22/11/2024	164	https://open.spotify.com/track/5fpj84RsT9cOTfWUCxBTXu	2015		na	na
+23/11/2024	443	https://open.spotify.com/track/1D28pacrVWg8sg7v00l4uR	1998	163	https://open.spotify.com/track/4wh0E9OwMCxcaIKTg0Mts9	2015
+24/11/2024	327	https://open.spotify.com/track/5XJzh2c0roCc6GDs8PrILx	1990		na	na
+25/11/2024	321	https://open.spotify.com/track/5HxEUiQVhS8l8VFUDobYSn	2009		na	na
+26/11/2024	156	https://open.spotify.com/track/2UDumaw7osnyjH7RZ2DLpB	2015	421	https://open.spotify.com/track/1iArQTuOzxvrtniGmkyy92	1996
+27/11/2024	90	https://open.spotify.com/track/26iWAXoJRiUv9yYzxYBqSv	2024	435	https://open.spotify.com/track/2eG7o3BfbzohiETArwsX1K	1997
+28/11/2024	70	https://open.spotify.com/track/6KNSQJhc7DX6Z5nzNBQCc1	2023	129	https://open.spotify.com/track/0g63pVqj263CMsnm7H6BtN	2013
+29/11/2024	10	https://open.spotify.com/track/4GssB27iJeqmfGxS94Tfij	2020		na	na
+30/11/2024	233	https://open.spotify.com/track/7mVYYM1jFHP5d5ygTgjrf6	2019		na	na
+01/12/2024	407	https://open.spotify.com/track/24tO365YW6lcZr1hN4Ukzj	1995	95	https://open.spotify.com/track/36WNQJFVjYhDRZ6vJhYXEh	2010
+02/12/2024	79	https://open.spotify.com/track/1490WwKimLxIeRgejYGFU2	2023		na	na
+03/12/2024	410	https://open.spotify.com/track/1UCOydO8vr9Vl5gUrSeAuD	1995		na	na
+04/12/2024	172	https://open.spotify.com/track/2AQq1I0LiIgfJ7vVLptvy8	2015		na	na
+05/12/2024	218	https://open.spotify.com/track/5ep1aGnQEL42H6O9yhMhqh	2019	374	https://open.spotify.com/track/1LYS8juzvFqAF35hicj7qE	1992
+06/12/2024	234	https://open.spotify.com/track/3oOoJh5gq3YQb5YiEew04S	2019		na	na
+07/12/2024	278	https://open.spotify.com/track/1ugRmaf5TDDf1fO3hFSIs1	2004		na	na
+08/12/2024	261	https://open.spotify.com/track/4e9eGQYsOiBcftrWXwsVco	2002	215	https://open.spotify.com/track/2ZMI0QNoqU9fQZFirR9WpK	2018
+09/12/2024	44	https://open.spotify.com/track/7JP8lWYrxpA8luKU8IPd3Y	2021		na	na
+10/12/2024	301	https://open.spotify.com/track/18lR4BzEs7e3qzc0KVkTpU	2007		na	na
+11/12/2024	86	https://open.spotify.com/track/7xOB82ELg70RoIM3mMTkt4	2024		na	na
+12/12/2024	356	https://open.spotify.com/track/17S4XrLvF5jlGvGCJHgF51	1991		na	na
+13/12/2024	239	https://open.spotify.com/track/1ZozJfi8u9cO2Ob8KwiwNT	2000		na	na
+14/12/2024	422	https://open.spotify.com/track/0uV03rQUQn4j6HhWz7Nt2T	1996	242	https://open.spotify.com/track/6ZOBP3NvffbU4SZcrnt1k6	2000
+15/12/2024	313	https://open.spotify.com/track/4feXJ5IC3avXsVW9WNFSag?si=53dfa5ccf3674962	2008		na	na
+16/12/2024	139	https://open.spotify.com/track/3ear11tYbMEmNDm2lxZTqL	2013		na	na
+17/12/2024	371	https://open.spotify.com/track/4VDfpqLKbbuMMRIl14LLTg	1992	275	https://open.spotify.com/track/2nLtzopw4rPReszdYBJU6h	2004
+18/12/2024	317	https://open.spotify.com/track/2PSXyiERCaNmRyFA06UMjq	2009		na	na
+19/12/2024	62	https://open.spotify.com/track/3DMMBYlZnEz6f4pORfZnmX	2022		na	na
+20/12/2024	11	https://open.spotify.com/track/3N4zFbWpILhmZelOboFEhx	2020		na	na
+21/12/2024	263	https://open.spotify.com/track/16DhvbuyvJob4Q9GHNYu2n	2002		na	na
+22/12/2024	135	https://open.spotify.com/track/1ItQbzjqFKNFtLwXdk3c0R	2013	59	https://open.spotify.com/track/6LleMnUceskUsmszoOlODl	2022
+23/12/2024	324	https://open.spotify.com/track/0Fl8ciGpmcUezzgaSKvysd	2009		na	na
+24/12/2024	53	https://open.spotify.com/track/4BImM1ASmigkuEhxrPfUAf	2022		na	na
+25/12/2024	355	https://open.spotify.com/track/1S5QMC19YF0UjoKvnArjvH	1991		na	na
+26/12/2024	105	https://open.spotify.com/track/2abHKI9Oox4NBEhOh3HMbq	2011		na	na
+27/12/2024	4	https://open.spotify.com/track/163Kb2pSLLduhfbO6Zn0sL	2020		na	na
+28/12/2024	8	https://open.spotify.com/track/1VsFIGQytB26cDHViCLjQi	2020	230	https://open.spotify.com/track/3VePARjg5ortw4ZfCKj0m3	2019
+29/12/2024	269	https://open.spotify.com/track/6dRAAG4sB71NAtVCHJep7s	2003	357	https://open.spotify.com/track/5YwTtO7dp6BdBRpeLotsUb	1991
+30/12/2024	304	https://open.spotify.com/track/3HE50TVRquwXe9yv2HFoNL	2007	446	https://open.spotify.com/track/6vUPPEN2V2lZ78b6DyEIjZ	1999
+31/12/2024	209	https://open.spotify.com/track/1WjcX541kITk0ACPf5K6Bp	2018		na	na
+01/01/2025	106	https://open.spotify.com/track/2Vs5oZG2ka6zDmT4eXl6b9	2011		na	na
+02/01/2025	387	https://open.spotify.com/track/38wC6umxftE9TL2llqMzCV	1993		na	na
+03/01/2025	185	https://open.spotify.com/track/1euszbbvkUzQzIhZUWFmXG	2016		na	na
+04/01/2025	342	https://open.spotify.com/track/7G0hwJmqqFJmaM2h1HxRZZ	1990		na	na
+05/01/2025	279	https://open.spotify.com/track/0CA3RxBx2xSQXPfpmUBK1v	2004		na	na
+06/01/2025	45	https://open.spotify.com/track/2DyDyOW1hRYFFaMhBCAHJ9	2021	63	https://open.spotify.com/track/3c9kVsKF68xMzlS0NikVn3	2022
+07/01/2025	171	https://open.spotify.com/track/0M3adYbGtyRHACP86dey1H	2015	75	https://open.spotify.com/track/1jzXxq516d0bM1E7ThLAiR	2023
+08/01/2025	245	https://open.spotify.com/track/48UPSzbZjgc449aqz8bxox	2000		na	na
+09/01/2025	311	https://open.spotify.com/track/5ynWvN3bQymHVThxutO4hG	2008		na	na
+10/01/2025	107	https://open.spotify.com/track/5SwmAlsSG9AlCW59lizN2Q	2011	115	https://open.spotify.com/track/3qC6eYdpa5kZQHZJPOjgvD	2012
+11/01/2025	189	https://open.spotify.com/track/2le5xHvcWF8PDp608d4L8D	2017		na	na
+12/01/2025	17	https://open.spotify.com/track/0cMyMeOTBeweBZRfP6MJ6e	2020		na	na
+13/01/2025	64	https://open.spotify.com/track/4nMUPQeTor23d8RxiiJO9W	2022		na	na
+14/01/2025	3	https://open.spotify.com/track/0XRjftXFxSo0ZEC0ZdSxWQ	2020	363	https://open.spotify.com/track/50JK22El2PTIzZBU2liLDI	1991
+15/01/2025	39	https://open.spotify.com/track/2u8NmvhYX6wiviyxJTOhEi	2021	169	https://open.spotify.com/track/3AoSqIShcfu9WMECozFOG1	2015
+16/01/2025	26	https://open.spotify.com/track/4orZt0eF9552qazCt2KECE	2021		na	na
+17/01/2025	144	https://open.spotify.com/track/7F5jxmwf1uWVqh6nbYz7rl	2014		na	na
+18/01/2025	18	https://open.spotify.com/track/0y1t3QzZAjfFd5IxQZCS1V	2020		na	na
+19/01/2025	248	https://open.spotify.com/track/6uhj7EIZZm3OwVr0gWfkQn	2001		na	na
+20/01/2025	88	https://open.spotify.com/track/0b6fNjbiW4uF0W01GAfRVg	2024		na	na
+21/01/2025	220	https://open.spotify.com/track/6Q3LRRTIam8TJAFF25nwnf	2019		na	na
+22/01/2025	442	https://open.spotify.com/track/01z3wyn02forxUQHEDAa0R	1998		na	na
+23/01/2025	223	https://open.spotify.com/track/78ObTPtTR1gQ1b6tcVeBdA	2019		na	na
+24/01/2025	300	https://open.spotify.com/track/4JXfNOePhdgMOI7KZ1L25U	2007		na	na
+25/01/2025	287	https://open.spotify.com/track/5ynxx6zC4dgzsMHLYQ04Dc	2005	145	https://open.spotify.com/track/5I1ueVGJA6VZRkgkMyiHcP	2014
+26/01/2025	160	https://open.spotify.com/track/0FLmCEO4OccwwiHxveEpt1	2015	123	https://open.spotify.com/track/5Hgx4ssabqTTD1fmGFTmi2	2013
+27/01/2025	296	https://open.spotify.com/track/5NeIONQWJ25uPylJBJiO4c	2006		na	na
+28/01/2025	302	https://open.spotify.com/track/5axOkQnmQmwtjr4bv1Xt7i	2007	212	https://open.spotify.com/track/6oe2HcrgnNU66Eyq8BY45Z	2018
+29/01/2025	143	https://open.spotify.com/track/1fQaoh3imrMunWVZh5kf90	2014		na	na
+30/01/2025	440	https://open.spotify.com/track/6LEtLHTAcZ9Km1n1oKwe8o	1998	190	https://open.spotify.com/track/07huQEWGQAe7aJaeR08Cag	2017
+31/01/2025	380	https://open.spotify.com/track/6MyFkIkixtkLNIF6XPUdY2	1993		na	na
+01/02/2025	166	https://open.spotify.com/track/4LFBVDJV0xpayUvquQVzhS	2015		na	na
+02/02/2025	264	https://open.spotify.com/track/5O8L4I2S4izFGDjvP7xAKv	2002		na	na
+03/02/2025	167	https://open.spotify.com/track/3jjU4Pky1ja5J1onU6ei4T	2015		na	na
+04/02/2025	298	https://open.spotify.com/track/1lATXTBJDHwawvT1UfxWu3	2006	137	https://open.spotify.com/track/1We9y0dSphaMHt4owfGWpw	2013
+05/02/2025	60	https://open.spotify.com/track/48ra1MC5YRsr9RpWWUgTnR	2022		na	na
+06/02/2025	365	https://open.spotify.com/track/1o53HbxmOy5TzThJdBaDZb	1992		na	na
+07/02/2025	221	https://open.spotify.com/track/1ZDq0oRT40CkuADdE4Jvrq	2019		na	na
+08/02/2025	294	https://open.spotify.com/track/10Nmj3JCNoMeBQ87uw5j8k	2006		na	na
+09/02/2025	288	https://open.spotify.com/track/5FZxsHWIvUsmSK1IAvm2pp	2005		na	na
+10/02/2025	6	https://open.spotify.com/track/7u9r4j7KSMW5yLsgjLRZGZ	2020		na	na
+11/02/2025	194	https://open.spotify.com/track/5jsDxDkJ1PqyYUWhDMr86B	2017	116	https://open.spotify.com/track/0pVsbXUd6gaFllRcbbNcUp	2012
+12/02/2025	224	https://open.spotify.com/track/7Fma0rICvZeAECL8VoPuUO	2019	434	https://open.spotify.com/track/0Xl2pAlIRE6ANULPdEI7fx	1997
+13/02/2025	206	https://open.spotify.com/track/5d8Wq39QLT6OQWsY9paz5n	2018		na	na
+14/02/2025	309	https://open.spotify.com/track/5cxp9kjCFyJwzv3lzeX7ku	2008		na	na
+15/02/2025	142	https://open.spotify.com/track/1q9ru9Wx2Q9Ez8irkGcyFa	2014	350	https://open.spotify.com/track/5NK8jad728pj6YeqM5VJD4	1991
+16/02/2025	93	https://open.spotify.com/track/4a9i7rCLfPjbS1sNamZeQN	2010		na	na
+17/02/2025	259	https://open.spotify.com/track/0pEBL0Jl8ak9vEJu8nW9oL	2002		na	na
+18/02/2025	98	https://open.spotify.com/track/7oL13WHjhUFhVq9POP7qfC	2010		na	na
+19/02/2025	181	https://open.spotify.com/track/0QV3swr7L8MZr72lL2izV1	2016		na	na
+20/02/2025	244	https://open.spotify.com/track/3PqjNjez477HKHqjfiB0na	2000		na	na
+21/02/2025	424	https://open.spotify.com/track/0rDPQzWWmLTv9deHn4ulG7	1996		na	na
+22/02/2025	51	https://open.spotify.com/track/2ib8fuTavdc48X6MjhE4Ft	2022		na	na
+23/02/2025	58	https://open.spotify.com/track/6kAOsnRUgp21bPiUoVZeuJ	2022	37	https://open.spotify.com/track/6nDHNHOVNuWK48N24Fktcs	2021
+24/02/2025	295	https://open.spotify.com/track/56sk7jBpZV0CD31G9hEU3b	2006		na	na
+25/02/2025	406	https://open.spotify.com/track/1krCklZhY9iG5wkcPrpZd2	1995	99	https://open.spotify.com/track/3Q8zopc4ABXhysDb1sgLVW	2010
+26/02/2025	335	https://open.spotify.com/track/27JL4aCCkDiPTwUWXF84am	1990		na	na
+27/02/2025	41	https://open.spotify.com/track/76FKM1IevJeZC5vqarglp9	2021		na	na
+28/02/2025	235	https://open.spotify.com/track/7jHJ2MzIKO1kIMxGamKRKn	2019		na	na
+01/03/2025	413	https://open.spotify.com/track/5QLHGv0DfpeXLNFo7SFEy1	1996		na	na
+02/03/2025	405	https://open.spotify.com/track/5TsHqbDKaSs4ECZX0045YS	1995		na	na
+03/03/2025	222	https://open.spotify.com/track/0iYBNrznkCwhN3xCmNVJpo	2019		na	na
+04/03/2025	126	https://open.spotify.com/track/7GPj3fZpLZcG5UERy1VLKb	2013		na	na
+05/03/2025	219	https://open.spotify.com/track/4pIKFpwflOdhYNIRmPTj3E	2019		na	na
+06/03/2025	266	https://open.spotify.com/track/0bKZa2zldftYPRrSRscmG2	2003		na	na
+07/03/2025	379	https://open.spotify.com/track/2E7FmmZPTT3a9Gfc8BnwdP	1993		na	na
+08/03/2025	426	https://open.spotify.com/track/6y1I8cGzw6KWy2zPA572Jq	1997	231	https://open.spotify.com/track/6QrC8IQV29mwLgLMW1zGmm	2019
+09/03/2025	118	https://open.spotify.com/track/2Bu4dB6VHWtSUn4cyLAjNU	2012		na	na
+10/03/2025	290	https://open.spotify.com/track/3bYrSlgvWacP1LZV44pfzp	2005		na	na
+11/03/2025	328	https://open.spotify.com/track/185dxn5sEgOnBX5iwCDHkp	1990	250	https://open.spotify.com/track/6tpGF2kYnrqO0S44jKxduZ	2001
+12/03/2025	136	https://open.spotify.com/track/5anCkDvJ17aznvK5TED5uo	2013		na	na
+13/03/2025	55	https://open.spotify.com/track/09XBDPqHnevLn54rpRMjkZ	2022		na	na
+14/03/2025	159	https://open.spotify.com/track/40cLVGkjzcZ5FJ3vHkXB0e	2015		na	na
+15/03/2025	330	https://open.spotify.com/track/2fAYTT9kcUm8tnUrhD80sC	1990	201	https://open.spotify.com/track/1LbwMX3159t6QxG3u7DRWe	2018
+16/03/2025	320	https://open.spotify.com/track/0pJUUPm7vb34VNImGEkg0L	2009		na	na
+17/03/2025	227	https://open.spotify.com/track/3lwpE0SEaQV5DWNjqMtYEk	2019	280	https://open.spotify.com/track/3dxiWIBVJRlqh9xk144rf4	2004
+18/03/2025	251	https://open.spotify.com/track/0s8OsDxW96cl290PcsI2mX	2001		na	na
+19/03/2025	43	https://open.spotify.com/track/2kxp6iR7nCNGYTx0eNYp2C	2021		na	na
+20/03/2025	103	https://open.spotify.com/track/530i1B7HwJDC6zOQf0NWVo	2011		na	na
+21/03/2025	57	https://open.spotify.com/track/19dNZyDyw00aKgr6S0Os6e	2022		na	na
+22/03/2025	158	https://open.spotify.com/track/4DveRhd1VBtZyPodE3sbLj	2015		na	na
+23/03/2025	326	https://open.spotify.com/track/7kyZkuQ6syH7mvANlbJiXe	1990		na	na
+24/03/2025	364	https://open.spotify.com/track/1UyrQJQQ4yynQugmLAbjoT	1992		na	na
+25/03/2025	436	https://open.spotify.com/track/3vL9lPWBuv0ZR3c5YmdhDl	1998		na	na
+26/03/2025	50	https://open.spotify.com/track/7g2LuO2QFplZfsLKRFiVHl	2022		na	na
+27/03/2025	354	https://open.spotify.com/track/0KpvMmpUFIMVpY14ypSdBB	1991		na	na
+28/03/2025	65	https://open.spotify.com/track/3jTWNaSfBQvv3HPTqQjkkM	2022		na	na
+29/03/2025	216	https://open.spotify.com/track/1OKQIvaO7yn7R2BpdUFG7D	2018	186	https://open.spotify.com/track/5TNhjanmvwvmjCz2WYwSAv	2017
+30/03/2025	325	https://open.spotify.com/track/2yXyz4NLTZx9CLdXfLTp5E	2009		na	na
+31/03/2025	67	https://open.spotify.com/track/6eXWc7irALyENtbAD2TTOT	2022		na	na
+01/04/2025	133	https://open.spotify.com/track/3RrI9e8pBPJZXPLXdy9wJ3	2013		na	na
+02/04/2025	323	https://open.spotify.com/track/5tm6PaYvkJdlWkVC5b1Am5	2009		na	na
+03/04/2025	322	https://open.spotify.com/track/3C5cvFzAklAzMffGjirEVw	2009	291	https://open.spotify.com/track/0kWbyCEItZRNHK0QcVXLsi	2005
+04/04/2025	349	https://open.spotify.com/track/2cu8WtQZdxGe3lbetlzeNe	1991		na	na
+05/04/2025	52	https://open.spotify.com/track/6hIr2IDeBDXfRFk0rYe5Tz	2022		na	na
+06/04/2025	217	https://open.spotify.com/track/4k7HTbpyFhYyaks0Kd2OoW	2018		na	na
+07/04/2025	83	https://open.spotify.com/track/3xxM2OEHAAYnpr2KiPdW4B	2023		na	na
+08/04/2025	195	https://open.spotify.com/track/1wLQwg0mloy3yXjL0jPE0N	2017		na	na
+09/04/2025	208	https://open.spotify.com/track/2hEYslbdYWFSIA6JboUvnR	2018		na	na
+10/04/2025	254	https://open.spotify.com/track/2VSbEXqs6NbNiZSTcHlIDR	2001		na	na
+11/04/2025	187	https://open.spotify.com/track/19YmvsVCetCBeVj6O2mljR	2017		na	na
+12/04/2025	188	https://open.spotify.com/track/6fjer7Ed6ZUna1EMbwbDrN	2017		na	na
+13/04/2025	12	https://open.spotify.com/track/4fqmCurSlIJRhPlCjPqGhK	2020		na	na
+14/04/2025	113	https://open.spotify.com/track/74HVcSw5br5pukkh2828gh	2012		na	na
+15/04/2025	378	https://open.spotify.com/track/5FJDdlqrK6Czv3EP0FloLF	1993		na	na
+16/04/2025	246	https://open.spotify.com/track/1aC1IBAETh2XYGOE8kCC6t	2000		na	na
+17/04/2025	299	https://open.spotify.com/track/33daQo3S8j2NcJstEHXwhQ?si=539da51b21b644fa	2006		na	na
+18/04/2025	184	https://open.spotify.com/track/4YDdWcdzHhLDZ5d1j9nRaJ	2016		na	na
+19/04/2025	333	https://open.spotify.com/track/4dSeXYLuvr8s1RIDZuYOch	1990	35	https://open.spotify.com/track/74zUPQTB6HMnfS1cagJnd8	2021
+20/04/2025	183	https://open.spotify.com/track/0i8JFpqe9cKwnrcvoNgl1L	2016		na	na
+21/04/2025	441	https://open.spotify.com/track/64u34NNXDlc3y61FIveY2w	1998		na	na
+22/04/2025	66	https://open.spotify.com/track/1HFXb1wpN8cGuTrRn1idRd	2022		na	na
+23/04/2025	151	https://open.spotify.com/track/3JNjUfRar0IGtk1LMxJUmv	2014		na	na
+24/04/2025	182	https://open.spotify.com/track/2j219ocVSxgt7eZ3KNw9a6	2016		na	na
+25/04/2025	305	https://open.spotify.com/track/7x8dCjCr0x6x2lXKujYD34	2007		na	na
+26/04/2025	131	https://open.spotify.com/track/3Kx9gD6qg0MbgQmBVtXTZz	2013		na	na
+27/04/2025	132	https://open.spotify.com/track/239X0US9LWyWV816gtVWEg	2013		na	na
+28/04/2025	141	https://open.spotify.com/track/592s63wvXY9JR4T9NuiY6a	2013		na	na
+29/04/2025	409	https://open.spotify.com/track/1G8jae4jD8mwkXdodqHsBM	1995		na	na
+30/04/2025	176	https://open.spotify.com/track/0uh5m7fyUP1UFN16lgojTN	2016	25	https://open.spotify.com/track/0PWQkhOlfvBmjrzQRTBb60	2021
+01/05/2025	89	https://open.spotify.com/track/0HLRccMV34ON7T0hH1qEVn	2024		na	na
+`
+	</script>
+
+
+
+</body>
+
+</html>
