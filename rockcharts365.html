@@ -183,9 +183,8 @@
 		function buttonClick(event, date) {
 			console.log(event.target);
 			let link = event.target.getAttribute('href');
-			alert(date + ' ' + link);
 			localStorage.setItem(date, link);
-			//window.location.href = link; 
+			window.location.href = link; 
 		}
 
 		function getDate() {
