@@ -13,9 +13,11 @@
 			height: 100vh;
 			margin: 0;
 			padding: 0;
+
 		}
 
 		.one_choice {
+			/*
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -23,13 +25,20 @@
 			height: 100vh;
 			margin: 0;
 			padding: 0;
+			*/
 		}
 
-		.two_choices {}
+		.two_choices {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			column-gap: 5px;
+		}
 
 
 		img {
-			width: 20%;
+			width: 100%;
+			aspect-ratio: 1;
+			object-fit: contain;
 			/* make the image 50% of the width of its container */
 			margin-top: 20px;
 			/* add some space between the button and the image */
@@ -37,7 +46,14 @@
 			/* make the image have rounded edges */
 		}
 
+		@media only screen and (max-width: 768px) {
+			/*img {
+				width: 100%
+			}*/
+		}
+
 		button {
+			width: 100%;
 			border: none;
 			border-radius: 0%;
 			background-color: #1DB954;
@@ -55,21 +71,15 @@
 			margin-top: 20px;
 		}
 
-
-
-		@media only screen and (max-width: 768px) {
-			img {
-				width: 50%
-			}
-
-
-		}
-
 		p {
 			font-size: 24px;
 			font-weight: bold;
 			margin-top: 20px;
 			/* add some space between the image and the text */
+		}
+
+		iframe {
+			aspect-ratio: 16 / 9;
 		}
 	</style>
 </head>
@@ -88,15 +98,13 @@
 
 	</div>
 
-	<p>Have a rocking day! 🤘</p>
-
 	<script>
 
-		window.onload = windowonload;
-
 		//file:///C:/Users/calov/Documents/Etienne/taff/rockcharts365.html?06052024
-		function windowonload() {
+
+		window.onload = () => {
 			let date = getDate();
+
 			console.log('date ' + date);
 			let linksLine = getLinks(date);
 			console.log(linksLine);
@@ -108,48 +116,64 @@
 
 
 			let year1 = linksLine[3];
-			console.log('year1', year1)
+			//console.log('year1', year1)
 			let pictures1 = getPictures(year1);
-			console.log('pictures1', pictures1)
-			let picture1 = randomPicture(pictures1);
+			//console.log('pictures1', pictures1)
+			let picture1 = 'photos/' + encodeURIComponent(randomPicture(pictures1));
 
-			if (!hasLink2) {
+			if (date == '02/05/2024') {
 				innerHtml += `
 				<div class="one_choice">
-					<img src="${picture1}"><button href="${link1}">Play tune</button>
+					<iframe src="https://drive.google.com/file/d/1inm8JwNYdAQjwR4ZoxqCWnAp6xX5HcWC/preview" width="100%" allow="autoplay"></iframe>
+					<button href="${link1}">${year1}</button>
 				</div>`
+			}
+			else if (!hasLink2) {
+				innerHtml += `
+				<div class="one_choice">
+					<img src="${picture1}"><button href="${link1}">${year1}</button>
+				</div>`
+
 			}
 			else {
 
 				let year2 = linksLine[6];
-				console.log('year2', year2)
+				//console.log('year2', year2)
 				let pictures2 = getPictures(year2);
-				console.log('pictures2', pictures2)
-				let picture2 = randomPicture(pictures2);
+				//console.log('pictures2', pictures2)
+				let picture2 = 'photos/' + encodeURIComponent(randomPicture(pictures2));
 
 				// check if localstorage contains a choice
 				let previousChoice = localStorage.getItem(date);
 				if (previousChoice == null) {
 					innerHtml += `
+					<p>It's your choice!</p>
 					<div class="two_choices">
-						<div class="choice">You have a choice !</div>
-						<img src="${picture1}"><button href="${link1}">Play tune 1</button>
-						<img src="${picture2}"><button href="${link2}">Play tune 2</button>
+						<div>
+							<img src="${picture1}">
+							<button href="${link1}">${year1}</button>
+						</div>
+						<div>
+							<img src="${picture2}">
+							<button href="${link2}">${year2}</button>
+						</div>
 					</div>`
 				}
 				else {
 					//innerHtml += '<div class="choice">You made your choice !</div>'
 					innerHtml += `<div class="one_choice">`;
 					if (previousChoice == link1)
-						innerHtml += `<img src="${picture1}"><button href="${link1}">Play your chosen tune</button>`
+						innerHtml += `<img src="${picture1}"><button href="${link1}">${year1}</button>`
 					else
-						innerHtml += `<img src="${picture2}"><button href="${link2}">Play your chosen tune</button>`
+						innerHtml += `<img src="${picture2}"><button href="${link2}">${year2}</button>`
 					innerHtml += `</div>`
 				}
 			}
 
 			let divElement = document.getElementById('generatedDiv');
 			console.log(divElement);
+
+			innerHtml += `<p>Keep on Rocking! 🤘</p>`;
 			divElement.innerHTML = innerHtml;
 
 			divElement.querySelectorAll('button').forEach(x =>
@@ -198,29 +222,305 @@
 			return null;
 		}
 
-
 		function getPictures(year) {
+			let group = getGroup(year);
 			let pictures = [];
 			lines = csvPictures.split('\n');
 			let foundPictures = [];
 			for (let i = 1; i < lines.length; ++i) {
 				let rows = lines[i].split('\t');
-				if (rows[0] == year) {
+				if (rows[0] == group) {
 					foundPictures.push(rows[1]);
 				}
 			}
 			return foundPictures;
 		}
 
+		function getGroup(year) {
+			if (year < 2010)
+				return 1990;
+			if (year < 2020)
+				return 2010;
+			return 2020;
+		}
+
 		function randomPicture(pictures) {
 			return pictures[(Math.floor(Math.random() * pictures.length))];
 		}
 
-		var csvPictures = `
-1996	1996.jpg
-2008	2008.jpg
-2021	2021.jpg
-1996	1996_2.jpg
+		var csvPictures = `year group	Filename
+2010	2010_DSC02437.jpg
+2010	2010_DSC02714.jpg
+2010	2010_DSC04050.jpg
+2010	2010_DSC04451.jpg
+2010	2010_FB_IMG_1587820428378.jpg
+2010	2010_game7.jpg
+2010	2010_IMG_0474.jpg
+2010	2010_IMG_0595.jpg
+2010	2010_IMG_0977.jpg
+2010	2010_IMG_1243.PNG
+2010	2010_IMG_2510.JPG
+2010	2010_IMG_4036.jpg
+2010	2010_IMG_5088.jpg
+2010	2010_IMG_5389.jpg
+2010	2010_IMG_6223.jpg
+2010	2010_IMG_6258.jpg
+2010	2010_IMG_6313.jpg
+2010	2010_IMG_6856.jpg
+2010	2010_IMG_7015.jpg
+2010	2010_IMG20170311141023.jpg
+2010	2010_IMG20170321194555.jpg
+2010	2010_IMG20170729164551.jpg
+2010	2010_IMG20171118154327.jpg
+2010	2010_IMG20171220202131.jpg
+2010	2010_IMG20180401140909.jpg
+2010	2010_IMG20180401185630.jpg
+2010	2010_P4120299.jpg
+2010	2010_P4120810.jpg
+2010	2010_P7250495.jpg
+2010	2015_2015-08-06 15.39.36 (2016_06_18 12_34_10 UTC).png
+2010	2016_20160826_110703.jpg
+2010	2017_IMG-20170604-WA0000.jpg
+2010	2018_20180115_103959-COLLAGE.jpg
+2010	2018_IMG_20181203_221013.jpg
+2010	2018_IMG_20181206_201246.jpg
+2010	2018_IMG-20180331-WA0000.jpg
+2010	2019_20190811_115830.jpg
+2010	2019_20190811_150118.jpg
+2010	2019_20190812_151204.jpg
+2010	2019_20190812_155208.jpg
+2010	2019_20190815_170505-COLLAGE.jpg
+2010	2019_IMG_20190406_170037.jpg
+2010	2019_IMG_20190412_113928.jpg
+2010	2019_IMG_20190421_142820.jpg
+2010	2019_IMG_20190506_183951.jpg
+2010	2019_IMG_20190511_140651.jpg
+2010	2019_IMG_20190511_151426.jpg
+2010	2019_IMG_20190511_182646.jpg
+2010	2019_IMG_20190629_153507.jpg
+2010	2019_IMG_20190720_145308.jpg
+2010	2019_IMG_20190809_170315.jpg
+2010	2019_IMG_20190821_132954.jpg
+2010	2019_IMG_20190831_115844.jpg
+2010	2019_IMG_20190831_124339.jpg
+2010	2019_IMG_20190831_130137.jpg
+2010	2019_IMG_20190831_150713.jpg
+2010	2019_IMG_20190831_162904.jpg
+2010	2019_IMG_20190831_165105.jpg
+2010	2019_IMG_20191031_201227.jpg
+2010	2019_IMG_20191224_181137.jpg
+2010	2019_IMG_20191225_103659.jpg
+2010	2019_IMG_20191225_215203.jpg
+2010	2019_IMG-20190628-WA0020.jpg
+2010	2019_IMG-20190929-WA0025.jpg
+2020	2020_20200418_165424.jpg
+2020	2020_20200817_125546.jpg
+2020	2020_20200921_174405.jpg
+2020	2020_20240418_085945-COLLAGE.jpg
+2020	2020_DSC00118.jpg
+2020	2020_DSC03767.jpg
+2020	2020_IMG_1903.jpg
+2020	2020_IMG_2553.jpg
+2020	2020_IMG_7042.jpg
+2020	2020_IMG_7244.jpg
+2020	2020_IMG_20200201_145845_1.jpg
+2020	2020_IMG_20200405_174402.jpg
+2020	2020_IMG_20200410_151346.jpg
+2020	2020_IMG_20200425_192315.jpg
+2020	2020_IMG_20200514_160447.jpg
+2020	2020_IMG_20200516_203211.jpg
+2020	2020_IMG_20200525_120147.jpg
+2020	2020_IMG_20200531_145651.jpg
+2020	2020_IMG_20200531_145713.jpg
+2020	2020_IMG_20200715_173630.jpg
+2020	2020_IMG_20200718_112353.jpg
+2020	2020_IMG_20200718_135536.jpg
+2020	2020_IMG_20200718_135550.jpg
+2020	2020_IMG_20200811_164914.jpg
+2020	2020_IMG_20200812_141758.jpg
+2020	2020_IMG_20200816_164346.jpg
+2020	2020_IMG_20200912_114612.jpg
+2020	2020_IMG_20200923_190719.jpg
+2020	2020_IMG_20201003_135805.jpg
+2020	2020_IMG_20201010_125250.jpg
+2020	2020_IMG_20201224_150712.jpg
+2020	2020_IMG-20200515-WA0003.jpg
+2020	2020_IMG-20201017-WA0004.jpg
+2020	2020_IMG-20201231-WA0009.jpg
+2020	2020_IMG20170326132648.jpg
+2020	2021_20210404_211519-COLLAGE.jpg
+2020	2021_20210729_160305.jpg
+2020	2021_IMG_20210114_145007.jpg
+2020	2021_IMG_20210122_185842.jpg
+2020	2021_IMG_20210124_160804.jpg
+2020	2021_IMG_20210530_131348.jpg
+2020	2021_IMG_20210530_152254.jpg
+2020	2021_IMG_20210531_132706.jpg
+2020	2021_IMG_20210728_153913.jpg
+2020	2021_IMG_20211231_101448.jpg
+2020	2021_IMG-20210124-WA0023.jpg
+2020	2021_IMG-20210124-WA0031.jpg
+2020	2021_IMG-20210217-WA0002.jpg
+2020	2021_IMG-20210404-WA0020.jpg
+2020	2021_IMG-20210404-WA0021.jpg
+2020	2021_IMG-20210411-WA0018.jpg
+2020	2021_IMG-20210509-WA0012.jpg
+2020	2021_IMG-20210703-WA0030.jpg
+2020	2021_IMG-20210703-WA0034.jpg
+2020	2021_IMG-20210711-WA0015.jpg
+2020	2021_IMG-20210813-WA0004.jpg
+2020	2021_IMG-20210813-WA0010.jpg
+2020	2021_IMG-20210814-WA0001.jpg
+2020	2021_IMG-20210814-WA0011.jpg
+2020	2021_IMG-20210818-WA0014.jpg
+2020	2021_IMG-20210818-WA0016.jpg
+2020	2021_IMG-20210818-WA0017.jpg
+2020	2021_IMG-20211003-WA0006.jpg
+2020	2022_20220430_123515.jpg
+2020	2022_20220516_174237.jpg
+2020	2022_20220728_132335.jpg
+2020	2022_20220830_135207.jpg
+2020	2022_20220918_134709.jpg
+2020	2022_IMG_20220410_112053.jpg
+2020	2022_IMG_20220729_152018.jpg
+2020	2022_IMG_20220801_115756.jpg
+2020	2022_IMG_20220814_115035.jpg
+2020	2022_IMG-20220109-WA0008.jpg
+2020	2022_IMG-20221001-WA0000.jpg
+2020	2022_original_bf0e7546-f856-4ffd-9de1-97d7df3c3fda_20220214_153355.jpg
+2020	2023_20230214_132759.jpg
+2020	2023_20230415_175758.jpg
+2020	2023_20230520_153433.jpg
+2020	2023_20231101_085055.jpg
+2020	2023_IMG_20230905_114803.jpg
+2020	2023_IMG_20230906_142531_edit_126213511132823.jpg
+2020	2023_original_114a7b68-f4cb-4aa6-808d-68a2c831d090_20230907_114401.jpg
+2020	2024_20240309_141001.jpg
+2020	2024_20240420_175116.jpg
+2010	20140627_145107.jpg
+1990	1990_2-squadron-exercise_0013.jpg
+1990	1990_2-squadron-open-day_0011.jpg
+1990	1990_1979_0007 (1).jpg
+1990	1990_1980-xmas_0017.jpg
+1990	1990_9807_0043.jpg
+1990	1990_9811_0002.jpg
+1990	1990_9812_0016.jpg
+1990	1990_9903_0020.jpg
+1990	1990_9905_0006.jpg
+1990	1990_9907_0001.jpg
+1990	1990_20190413_130448.jpg
+1990	1990_20240418_085537-COLLAGE.jpg
+1990	1990_504206612.745204.jpg
+1990	1990_alsace and french alps_0007.jpg
+1990	1990_alsace and french alps_0040.jpg
+1990	1990_amsterdam-may-81_0010.jpg
+1990	1990_badufoss-41sqdn_0009.jpg
+1990	1990_billings-aquadrome_0003.jpg
+1990	1990_blegium-hans-sur-lesse_0001.jpg
+1990	1990_brighton_0004.jpg
+1990	1990_british-columbia_0017.jpg
+1990	1990_California-- Summer_0002.jpg
+1990	1990_California-hills and desert_0003.jpg
+1990	1990_camping-new-forest & south coast_0005.jpg
+1990	1990_cardiff-april05.jpg
+1990	1990_castle coch_0001.jpg
+1990	1990_ceri-birth_0004.jpg
+1990	1990_ceris-birthday_0005.jpg
+1990	1990_ceris-birthday_0023.jpg
+1990	1990_den haag_0002.jpg
+1990	1990_Disney-Epcot-Florida_0017.jpg
+1990	1990_Disney-Magic-Kingdom-Florida_0026.jpg
+1990	1990_dover_0010.jpg
+1990	1990_dressing-up_0001.jpg
+1990	1990_earith_0003.jpg
+1990	1990_earith_0005.jpg
+1990	1990_earith_0009.jpg
+1990	1990_emmerich_0003.jpg
+1990	1990_eurodisney_0020.jpg
+1990	1990_eurodisney_0025.jpg
+1990	1990_FB_IMG_1498555752560.jpg
+1990	1990_FB_IMG_1498555759940.jpg
+1990	1990_film007_0022.jpg
+1990	1990_film009_0017.jpg
+1990	1990_film010 summer95 maybe_0027.jpg
+1990	1990_france88-paris_0019.jpg
+1990	1990_germany_0035.jpg
+1990	1990_germany_0057b.jpg
+1990	1990_holdenby house - cv day_0013.jpg
+1990	1990_ian-fay-wedding_0008.jpg
+1990	1990_IMG_20200414_130040.jpg
+1990	1990_IMG_20200613_171246.jpg
+1990	1990_img086.jpg
+1990	1990_img087.jpg
+1990	1990_img276.jpg
+1990	1990_img295.jpg
+1990	1990_img603.jpg
+1990	1990_IMG-20200414-WA0011.jpg
+1990	1990_IMG-20200925-WA0018.jpg
+1990	1990_IMG-20200925-WA0019.jpg
+1990	1990_IMG-20200925-WA0021.jpg
+1990	1990_IMG-20201019-WA0000.jpg
+1990	1990_IMG-20201019-WA0001.jpg
+1990	1990_IMG-20201019-WA0002.jpg
+1990	1990_IMG-20201019-WA0003.jpg
+1990	1990_IMG-20201111-WA0006.jpg
+1990	1990_IMG-20201111-WA0007.jpg
+1990	1990_IMG-20201111-WA0008.jpg
+1990	1990_IMG-20201124-WA0001.jpg
+1990	1990_IMG-20201203-WA0009.jpg
+1990	1990_IMG-20201211-WA0000.jpg
+1990	1990_jamie birthday 4th_0014.jpg
+1990	1990_jamie earith_0018.jpg
+1990	1990_jamie_0002.jpg
+1990	1990_jamie_0006.jpg
+1990	1990_jamie-2nd-birthday_0014.jpg
+1990	1990_Loire_0006.jpg
+1990	1990_london_0011.jpg
+1990	1990_London_0012.jpg
+1990	1990_London_0031.jpg
+1990	1990_mulbarton_0004.jpg
+1990	1990_new-york_0026.jpg
+1990	1990_new-york_0033.jpg
+1990	1990_nis-yugoslavia(serbia)_0031.jpg
+1990	1990_rheingold strasse_0001.jpg
+1990	1990_roermond_0002.jpg
+1990	1990_salisbury_0006.jpg
+1990	1990_sandringham_0010.jpg
+1990	1990_skiing_0002.jpg
+1990	1990_skiing_0010.jpg
+1990	1990_snow_0017.jpg
+1990	1990_south-wales_0007.jpg
+1990	1990_st-ives-cambs_0006.jpg
+1990	1990_summer_0018.jpg
+1990	1990_summer1978_0046.jpg
+1990	1990_Tignes-Le-Brevier-our-chalet_0007.jpg
+1990	1990_Tignes-Le-Brevier-skiing_0053.jpg
+1990	1990_Treasure-Island-Florida_0015.jpg
+1990	1990_various##_0024.jpg
+1990	1990_various##_0039.jpg
+1990	1990_various_0019.jpg
+1990	1990_various_0026.jpg
+1990	1990_various_0040.jpg
+1990	1990_various_0061.jpg
+1990	1990_various_0064.jpg
+1990	1990_various_0073.jpg
+1990	1990_various1979_0028 (1).jpg
+1990	1990_various1980_0003.jpg
+1990	1990_wales_0014.jpg
+1990	1990_wedding_0001.jpg
+1990	1990-02_0005.jpg
+1990	1992-04_0002.jpg
+1990	1992-04_0015.jpg
+1990	1992-05_0001.jpg
+1990	2000_IMG-20201215-WA0000.jpg
+1990	2001pics_0013.jpg
+2010	2010_1521305339569.jpg
+2010	2010_DSC_0001.jpg
+2010	2010_DSC00241.jpg
+2010	2010_DSC00518.jpg
+2010	2010_DSC01076.jpg
+2010	2010_DSC01566.jpg
+2010	2010_DSC01960.jpg
 `
 
 		var csv = `Date	Lookup1	Songlink1	Year1	Lookup2	Songlink2	Year2
